@@ -7,7 +7,7 @@ namespace locgen.ResGen
 	/// <summary>
 	/// A Json resource file generator.
 	/// </summary>
-	public sealed class JsonResGenerator : LocResGenerator
+	internal sealed class JsonResGenerator : LocResGenerator
 	{
 		#region data
 		#endregion

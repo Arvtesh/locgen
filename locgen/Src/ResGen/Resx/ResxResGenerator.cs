@@ -7,7 +7,7 @@ namespace locgen.ResGen
 	/// <summary>
 	/// A ResX resource file generator.
 	/// </summary>
-	public sealed class ResxResGenerator : LocResGenerator
+	internal sealed class ResxResGenerator : LocResGenerator
 	{
 		#region data
 		#endregion

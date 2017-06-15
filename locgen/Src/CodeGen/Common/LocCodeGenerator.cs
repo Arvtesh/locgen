@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace locgen.CodeGen
@@ -7,7 +8,7 @@ namespace locgen.CodeGen
 	/// <summary>
 	/// A generic code generator.
 	/// </summary>
-	public abstract class LocCodeGenerator : ILocCodeGenerator, ILocCodeGeneratorSettings
+	internal abstract class LocCodeGenerator : ILocCodeGenerator, ILocCodeGeneratorSettings
 	{
 		#region data
 		#endregion
@@ -19,6 +20,8 @@ namespace locgen.CodeGen
 			Name = name;
 		}
 
+		protected abstract void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken);
+
 		#endregion
 
 		#region ILocCodeGenerator
@@ -27,15 +30,35 @@ namespace locgen.CodeGen
 
 		public string Name { get; }
 
-		public abstract void Generate(ILocTree data, CancellationToken cancellationToken);
+		public void Generate(ILocTree data, CancellationToken cancellationToken)
+		{
+			if (data == null)
+			{
+				throw new ArgumentNullException(nameof(data));
+			}
+
+			if (string.IsNullOrEmpty(TargetPath))
+			{
+				throw new ArgumentException("No target path specified");
+			}
+
+			cancellationToken.ThrowIfCancellationRequested();
+
+			using (var file = File.CreateText(TargetPath))
+			{
+				GenerateInternal(data, file, cancellationToken);
+			}
+		}
 
 		#endregion
 
-		#region ILocCodeGenerator
+		#region ILocCodeGeneratorSettings
 
 		public string TargetPath { get; set; }
 
 		public string TargetNamespace { get; set; }
+
+		public string GetMethodImpl { get; set; }
 
 		#endregion
 

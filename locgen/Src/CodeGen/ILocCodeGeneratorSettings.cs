@@ -18,5 +18,10 @@ namespace locgen
 		/// Gets or sets name of the namespace for the generated file.
 		/// </summary>
 		string TargetNamespace { get; set; }
+
+		/// <summary>
+		/// Gets or sets format string that is used as a code returning a localized string for a given key.
+		/// </summary>
+		string GetMethodImpl { get; set; }
 	}
 }

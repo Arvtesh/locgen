@@ -7,7 +7,7 @@ namespace locgen.ResGen
 	/// <summary>
 	/// A generic resource file generator.
 	/// </summary>
-	public abstract class LocResGenerator : ILocResGenerator
+	internal abstract class LocResGenerator : ILocResGenerator
 	{
 		#region data
 		#endregion

@@ -8,7 +8,7 @@ namespace locgen.Impl
 	/// <summary>
 	/// A generic command.
 	/// </summary>
-	public abstract class LocCommand : ILocCommand
+	internal abstract class LocCommand : ILocCommand
 	{
 		#region data
 

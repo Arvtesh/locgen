@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace locgen.CodeGen
@@ -7,7 +8,7 @@ namespace locgen.CodeGen
 	/// <summary>
 	/// A C++ code generator.
 	/// </summary>
-	public sealed class CppCodeGenerator : LocCodeGenerator
+	internal sealed class CppCodeGenerator : LocCodeGenerator
 	{
 		#region data
 		#endregion
@@ -23,9 +24,9 @@ namespace locgen.CodeGen
 
 		#region LocCodeGenerator
 
-		public override void Generate(ILocTree data, CancellationToken cancellationToken)
+		protected override void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken)
 		{
-			// TODO
+			throw new NotImplementedException();
 		}
 
 		#endregion
