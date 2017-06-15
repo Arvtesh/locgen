@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 namespace locgen
 {
@@ -13,5 +12,15 @@ namespace locgen
 		/// Returns the code generator settings. Read only.
 		/// </summary>
 		ILocCodeGeneratorSettings Settings { get; }
+
+		/// <summary>
+		/// Returns the generator name. Read only.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// Generates the code.
+		/// </summary>
+		void Generate(ILocTree data, CancellationToken cancellationToken);
 	}
 }

@@ -9,5 +9,9 @@ namespace locgen
 	/// </summary>
 	public interface ILocResGenerator : IDisposable
 	{
+		/// <summary>
+		/// Returns the generator name. Read only.
+		/// </summary>
+		string Name { get; }
 	}
 }

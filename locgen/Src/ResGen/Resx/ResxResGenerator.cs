@@ -13,6 +13,12 @@ namespace locgen.ResGen
 		#endregion
 
 		#region interface
+
+		public ResxResGenerator()
+			: base("ResX")
+		{
+		}
+
 		#endregion
 
 		#region implementation

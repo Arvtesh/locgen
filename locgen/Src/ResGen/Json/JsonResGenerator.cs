@@ -13,6 +13,12 @@ namespace locgen.ResGen
 		#endregion
 
 		#region interface
+
+		public JsonResGenerator()
+			: base("Json")
+		{
+		}
+
 		#endregion
 
 		#region implementation

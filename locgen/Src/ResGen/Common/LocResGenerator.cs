@@ -13,9 +13,18 @@ namespace locgen.ResGen
 		#endregion
 
 		#region interface
+
+		protected LocResGenerator(string name)
+		{
+			Name = name;
+		}
+
 		#endregion
 
 		#region IResCodeGenerator
+
+		public string Name { get; }
+
 		#endregion
 
 		#region IDisposable

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 namespace locgen.CodeGen
 {
@@ -13,11 +13,29 @@ namespace locgen.CodeGen
 		#endregion
 
 		#region interface
+
+		protected LocCodeGenerator(string name)
+		{
+			Name = name;
+		}
+
 		#endregion
 
 		#region ILocCodeGenerator
 
 		public ILocCodeGeneratorSettings Settings => this;
+
+		public string Name { get; }
+
+		public abstract void Generate(ILocTree data, CancellationToken cancellationToken);
+
+		#endregion
+
+		#region ILocCodeGenerator
+
+		public string TargetPath { get; set; }
+
+		public string TargetNamespace { get; set; }
 
 		#endregion
 

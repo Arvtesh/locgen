@@ -29,6 +29,7 @@ namespace locgen.Impl
 		}
 
 		protected abstract void ExecuteInternal(CancellationToken cancelToken);
+		protected abstract void Dispose(bool disposing);
 
 		#endregion
 
@@ -64,6 +65,8 @@ namespace locgen.Impl
 		public void Dispose()
 		{
 			_tokenSource.Cancel();
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
 
 		#endregion

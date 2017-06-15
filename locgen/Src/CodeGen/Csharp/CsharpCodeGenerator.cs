@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 namespace locgen.CodeGen
 {
@@ -13,6 +13,21 @@ namespace locgen.CodeGen
 		#endregion
 
 		#region interface
+
+		public CsharpCodeGenerator()
+			: base("Csharp")
+		{
+		}
+
+		#endregion
+
+		#region LocCodeGenerator
+
+		public override void Generate(ILocTree data, CancellationToken cancellationToken)
+		{
+			// TODO
+		}
+
 		#endregion
 
 		#region implementation
