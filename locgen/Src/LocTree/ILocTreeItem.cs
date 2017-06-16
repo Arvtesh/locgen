@@ -20,8 +20,8 @@ namespace locgen
 		string Name { get; }
 
 		/// <summary>
-		/// Returns item comment string. Read only.
+		/// Gets or sets item comment string.
 		/// </summary>
-		string Notes { get; }
+		string Notes { get; set; }
 	}
 }

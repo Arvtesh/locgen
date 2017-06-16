@@ -18,5 +18,15 @@ namespace locgen
 		/// 
 		/// </summary>
 		IEnumerable<ILocTreeUnit> Units { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocTreeUnit AddUnit(string name);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocTreeGroup AddGroup(string name);
 	}
 }
