@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xliff.OM\Xliff.OM.csproj" />
+    <ProjectReference Include="..\Xliff2.OM\Xliff2.OM.csproj" />
   </ItemGroup>
 
 </Project>

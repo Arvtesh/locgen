@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "locgen", "locgen\locgen.csproj", "{1CF44361-CF60-4B11-BA29-F44FD04C0D7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xliff.OM", "Xliff.OM\Xliff.OM.csproj", "{A114EB09-E722-492E-8A4A-A9DFCA51A166}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xliff2.OM", "Xliff2.OM\Xliff2.OM.csproj", "{A114EB09-E722-492E-8A4A-A9DFCA51A166}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
