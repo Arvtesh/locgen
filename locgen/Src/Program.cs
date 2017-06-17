@@ -11,7 +11,7 @@ namespace locgen
 			var ct = new CancellationTokenSource();
 			ILocTree tree;
 
-			using (var stream = new FileStream("c:\\Users\\1\\Documents\\test.xliff", FileMode.Open, FileAccess.Read))
+			using (var stream = new FileStream("./../Samples/text.xlf", FileMode.Open, FileAccess.Read))
 			{
 				using (var treeBuilder = new Impl.XliffTreeBuilder())
 				{
@@ -21,9 +21,10 @@ namespace locgen
 
 			using (var cg = new CodeGen.CsharpCodeGenerator())
 			{
-				cg.Settings.TargetPath = "c:\\Users\\1\\Documents\\test.generated.cs";
+				cg.Settings.TargetPath = "c:/Users/Alex/Documents/test.generated.cs";
 				cg.Settings.TargetNamespace = "SampleNamespace";
 				cg.Settings.GenerateLocKeys = true;
+				cg.Settings.StaticAccess = true;
 				cg.Generate(tree, ct.Token);
 			}
 		}

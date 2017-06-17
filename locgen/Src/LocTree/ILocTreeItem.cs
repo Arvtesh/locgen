@@ -5,7 +5,7 @@ using System.Text;
 namespace locgen
 {
 	/// <summary>
-	/// 
+	/// A generic <see cref="ILocTree"/> item.
 	/// </summary>
 	public interface ILocTreeItem
 	{
@@ -15,9 +15,19 @@ namespace locgen
 		string Id { get; }
 
 		/// <summary>
+		/// Returns the original item name. Read only.
+		/// </summary>
+		string OriginalName { get; }
+
+		/// <summary>
 		/// Returns the item name. Read only.
 		/// </summary>
 		string Name { get; }
+
+		/// <summary>
+		/// Returns the item path (for exmaple <c>xxx/yyy/zzz</c>). Read only.
+		/// </summary>
+		string Path { get; }
 
 		/// <summary>
 		/// Gets or sets item comment string.

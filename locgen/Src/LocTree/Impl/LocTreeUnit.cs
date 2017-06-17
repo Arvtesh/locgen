@@ -19,8 +19,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public LocTreeUnit(ILocTreeItem parent, string name)
-			: base(parent, name)
+		public LocTreeUnit(ILocTreeItem parent, string id, string name)
+			: base(parent, id, name)
 		{
 		}
 

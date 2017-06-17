@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.5</TargetFramework>
+    <RootNamespace>Localization.Xliff.OM</RootNamespace>
+    <Version>1.0.1</Version>
+    <Company></Company>
+    <Description>Library for generating, serializing and de-serializing XLIFF 2.0 documents. Adapted for netstandard1.5 target.</Description>
+    <AssemblyVersion>1.0.2.1</AssemblyVersion>
+    <FileVersion>1.0.2.1</FileVersion>
+    <Authors>Arvtesh</Authors>
+    <RepositoryUrl>https://github.com/Microsoft/XLIFF2-Object-Model</RepositoryUrl>
+    <PackageTags>XLIFF</PackageTags>
+    <Product>locgen</Product>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Arvtesh/locgen</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Src\Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Src\Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Localization.Xliff.OM.Properties</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

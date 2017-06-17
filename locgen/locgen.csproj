@@ -2,13 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <Authors>Arvtesh</Authors>
+    <Company />
+    <Copyright></Copyright>
+    <PackageProjectUrl>https://github.com/Arvtesh/locgen</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Arvtesh/locgen</RepositoryUrl>
+    <PackageTags>XLIFF</PackageTags>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Description>Localization code generator for C#/XLIFF 2.0.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="XLIFF.OM">
-      <HintPath>..\Dependencies\Xliff.OM.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Xliff.OM\Xliff.OM.csproj" />
   </ItemGroup>
 
 </Project>

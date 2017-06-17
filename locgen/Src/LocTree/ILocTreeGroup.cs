@@ -22,11 +22,11 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
-		ILocTreeUnit AddUnit(string name);
+		ILocTreeUnit AddUnit(string id, string name);
 
 		/// <summary>
 		/// 
 		/// </summary>
-		ILocTreeGroup AddGroup(string name);
+		ILocTreeGroup AddGroup(string id, string name);
 	}
 }

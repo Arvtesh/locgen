@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en">
+	<file id="test-localization" translate="yes">
+		<notes>
+			<note>Some secription text for the file.</note>
+		</notes>
+		<group id="g1" name="dialogs">
+			<group id="g2" name="about">
+				<unit id="u1" name="title">
+					<segment>
+						<source>About</source>
+					</segment>
+				</unit>
+				<unit id="u2" name="text">
+					<segment>
+						<source>Text with app info.</source>
+					</segment>
+					<segment>
+						<source>More text with app info.</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="g3" name="Message-Box">
+				<unit id="u3" name="title">
+					<segment>
+						<source>Message</source>
+					</segment>
+				</unit>
+			</group>
+			<group id="g4" name="Login-by-fb">
+			</group>
+		</group>
+		<group id="g5" name="buttons">
+			<unit id="ok">
+				<segment>
+					<source>OK</source>
+				</segment>
+			</unit>
+			<unit id="cancel">
+				<segment>
+					<source>Cancel</source>
+				</segment>
+			</unit>
+			<unit id="apply">
+				<segment>
+					<source>Apply</source>
+				</segment>
+			</unit>
+			<unit id="close">
+				<segment>
+					<source>Close</source>
+				</segment>
+			</unit>
+		</group>
+	</file>
+</xliff>

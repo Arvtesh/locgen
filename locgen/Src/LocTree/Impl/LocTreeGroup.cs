@@ -13,6 +13,8 @@ namespace locgen.Impl
 	{
 		#region data
 
+		private const string _invalidIdText = "Invalid item identifier";
+
 		private List<ILocTreeGroup> _groups = new List<ILocTreeGroup>();
 		private List<ILocTreeUnit> _units = new List<ILocTreeUnit>();
 
@@ -20,8 +22,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public LocTreeGroup(ILocTreeItem parent, string name)
-			: base(parent, name)
+		public LocTreeGroup(ILocTreeItem parent, string id, string name)
+			: base(parent, id, name)
 		{
 		}
 
@@ -32,26 +34,26 @@ namespace locgen.Impl
 		public IEnumerable<ILocTreeGroup> Groups => _groups;
 		public IEnumerable<ILocTreeUnit> Units => _units;
 
-		public ILocTreeUnit AddUnit(string name)
+		public ILocTreeUnit AddUnit(string id, string name)
 		{
-			if (string.IsNullOrEmpty(name))
+			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException("Invalid unit name", nameof(name));
+				throw new ArgumentException(_invalidIdText, nameof(id));
 			}
 
-			var unit = new LocTreeUnit(this, name);
+			var unit = new LocTreeUnit(this, id, name);
 			_units.Add(unit);
 			return unit;
 		}
 
-		public ILocTreeGroup AddGroup(string name)
+		public ILocTreeGroup AddGroup(string id, string name)
 		{
-			if (string.IsNullOrEmpty(name))
+			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException("Invalid group name", nameof(name));
+				throw new ArgumentException(_invalidIdText, nameof(id));
 			}
 
-			var group = new LocTreeGroup(this, name);
+			var group = new LocTreeGroup(this, id, name);
 			_groups.Add(group);
 			return group;
 		}

@@ -16,8 +16,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public LocTree(string name)
-			: base(null, name)
+		public LocTree(string id, string name)
+			: base(null, id, name)
 		{
 		}
 

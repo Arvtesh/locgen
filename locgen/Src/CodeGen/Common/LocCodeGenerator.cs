@@ -83,7 +83,9 @@ namespace locgen.CodeGen
 
 		public bool GenerateLocKeys { get; set; }
 
-		public string ResourceManagerClassName
+		public bool StaticAccess { get; set; }
+
+		public string ResourceManagerClassRef
 		{
 			get
 			{
@@ -102,7 +104,7 @@ namespace locgen.CodeGen
 			}
 		}
 
-		public string ResourceManagerGetStringMethodName
+		public string ResourceManagerGetStringMethod
 		{
 			get
 			{

@@ -30,13 +30,18 @@ namespace locgen
 		bool GenerateLocKeys { get; set; }
 
 		/// <summary>
-		/// Gets or sets name of the resource manager class.
+		/// If <c>true</c> all localization items should have static access.
 		/// </summary>
-		string ResourceManagerClassName { get; set; }
+		bool StaticAccess { get; set; }
 
 		/// <summary>
-		/// Gets or sets name of the GetString() method of the resource manager class specified with <see cref="ResourceManagerClassName"/>.
+		/// Gets or sets name of the resource manager class.
 		/// </summary>
-		string ResourceManagerGetStringMethodName { get; set; }
+		string ResourceManagerClassRef { get; set; }
+
+		/// <summary>
+		/// Gets or sets name of the GetString() method of the resource manager class specified with <see cref="ResourceManagerClassRef"/>.
+		/// </summary>
+		string ResourceManagerGetStringMethod { get; set; }
 	}
 }
