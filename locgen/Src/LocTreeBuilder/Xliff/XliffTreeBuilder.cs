@@ -19,7 +19,7 @@ namespace locgen.Impl
 		#region interface
 
 		public XliffTreeBuilder()
-			: base("XLIFF")
+			: base(SourceFileType.Xliff20.ToString())
 		{
 		}
 

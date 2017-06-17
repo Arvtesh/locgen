@@ -7,6 +7,37 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
+	public enum SourceFileType
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Auto,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Json,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Xml,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Xliff12,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Xliff20,
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public interface ILocTreeBuilder : IDisposable
 	{
 		/// <summary>

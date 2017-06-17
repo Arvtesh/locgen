@@ -7,12 +7,33 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
+	public enum CodeGenType
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		None,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Csharp,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Cpp,
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
 	public interface ILocCodeGeneratorSettings
 	{
 		/// <summary>
 		/// Gets or sets the path for the generated file (including file name and extension).
 		/// </summary>
-		string TargetPath { get; set; }
+		string TargetDir { get; set; }
 
 		/// <summary>
 		/// Gets or sets name of the namespace for the generated file.

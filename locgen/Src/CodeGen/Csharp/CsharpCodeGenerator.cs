@@ -4,7 +4,7 @@ using System.Reflection;
 using System.IO;
 using System.Threading;
 
-namespace locgen.CodeGen
+namespace locgen.Impl
 {
 	/// <summary>
 	/// A C# code generator.
@@ -16,8 +16,8 @@ namespace locgen.CodeGen
 
 		#region interface
 
-		public CsharpCodeGenerator()
-			: base("Csharp")
+		public CsharpCodeGenerator(ILocCodeGeneratorSettings settings)
+			: base(CodeGenType.Csharp.ToString(), settings)
 		{
 		}
 
@@ -29,6 +29,11 @@ namespace locgen.CodeGen
 		{
 			WriteFileHeader(file, cancellationToken);
 			WriteData(file, data, cancellationToken);
+		}
+
+		protected override string GetTargetFileExtension()
+		{
+			return ".generated.cs";
 		}
 
 		#endregion
@@ -55,13 +60,13 @@ namespace locgen.CodeGen
 			file.WriteLine("using System.Resources;");
 			file.WriteLine();
 
-			if (string.IsNullOrEmpty(TargetNamespace))
+			if (string.IsNullOrEmpty(Settings.TargetNamespace))
 			{
 				WriteLocTree(file, data, cancellationToken, 0);
 			}
 			else
 			{
-				file.WriteLine("namespace " + TargetNamespace);
+				file.WriteLine("namespace " + Settings.TargetNamespace);
 				file.WriteLine('{');
 				WriteLocTree(file, data, cancellationToken, 1);
 				file.WriteLine('}');
@@ -74,7 +79,7 @@ namespace locgen.CodeGen
 
 			WriteLocNotes(file, tree, identLevel);
 
-			if (StaticAccess)
+			if (Settings.StaticAccess)
 			{
 				WriteIdent(file, identLevel, "public static class " + tree.Name);
 				WriteIdent(file, identLevel, "{");
@@ -84,16 +89,16 @@ namespace locgen.CodeGen
 				WriteIdent(file, identLevel, "public partial class " + tree.Name);
 				WriteIdent(file, identLevel, "{");
 
-				WriteIdent(file, identLevel + 1, $"private readonly {ResourceManagerClassRef} _resourceManager;");
+				WriteIdent(file, identLevel + 1, $"private readonly {Settings.ResourceManagerClassRef} _resourceManager;");
 				file.WriteLine();
-				WriteIdent(file, identLevel + 1, $"public {tree.Name}({ResourceManagerClassRef} resourceManager) {{ _resourceManager = resourceManager; }}");
+				WriteIdent(file, identLevel + 1, $"public {tree.Name}({Settings.ResourceManagerClassRef} resourceManager) {{ _resourceManager = resourceManager; }}");
 				file.WriteLine();
 			}
 
 			WriteLocGroupContent(file, tree, cancellationToken, identLevel + 1);
 			WriteIdent(file, identLevel, "}");
 
-			if (GenerateLocKeys)
+			if (Settings.GenerateLocKeys)
 			{
 				file.WriteLine();
 
@@ -143,7 +148,7 @@ namespace locgen.CodeGen
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			if (StaticAccess)
+			if (Settings.StaticAccess)
 			{
 				WriteLocNotes(file, group, identLevel);
 				WriteIdent(file, identLevel, $"public static class {group.Name}");
@@ -160,9 +165,9 @@ namespace locgen.CodeGen
 				WriteIdent(file, identLevel, $"public struct {groupClassName}");
 				WriteIdent(file, identLevel, "{");
 
-				WriteIdent(file, identLevel + 1, $"private readonly {ResourceManagerClassRef} _resourceManager;");
+				WriteIdent(file, identLevel + 1, $"private readonly {Settings.ResourceManagerClassRef} _resourceManager;");
 				file.WriteLine();
-				WriteIdent(file, identLevel + 1, $"internal {groupClassName}({ResourceManagerClassRef} resourceManager) {{ _resourceManager = resourceManager; }}");
+				WriteIdent(file, identLevel + 1, $"internal {groupClassName}({Settings.ResourceManagerClassRef} resourceManager) {{ _resourceManager = resourceManager; }}");
 				file.WriteLine();
 
 				WriteLocGroupContent(file, group, cancellationToken, identLevel + 1);
@@ -192,13 +197,13 @@ namespace locgen.CodeGen
 
 			WriteLocNotes(file, unit, identLevel);
 
-			if (StaticAccess)
+			if (Settings.StaticAccess)
 			{
-				WriteIdent(file, identLevel, $"public static string {unit.Name} {{ get {{ return {ResourceManagerClassRef}.{ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				WriteIdent(file, identLevel, $"public static string {unit.Name} {{ get {{ return {Settings.ResourceManagerClassRef}.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
 			}
 			else
 			{
-				WriteIdent(file, identLevel, $"public string {unit.Name} {{ get {{ return _resourceManager.{ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				WriteIdent(file, identLevel, $"public string {unit.Name} {{ get {{ return _resourceManager.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
 			}
 		}
 

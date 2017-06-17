@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace locgen.CodeGen
+namespace locgen.Impl
 {
 	/// <summary>
 	/// A C++ code generator.
@@ -15,8 +15,8 @@ namespace locgen.CodeGen
 
 		#region interface
 
-		public CppCodeGenerator()
-			: base("Cpp")
+		public CppCodeGenerator(ILocCodeGeneratorSettings settings)
+			: base(CodeGenType.Cpp.ToString(), settings)
 		{
 		}
 
@@ -27,6 +27,11 @@ namespace locgen.CodeGen
 		protected override void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
+		}
+
+		protected override string GetTargetFileExtension()
+		{
+			return ".generated.hpp";
 		}
 
 		#endregion

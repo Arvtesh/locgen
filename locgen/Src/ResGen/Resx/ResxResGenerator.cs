@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace locgen.ResGen
+namespace locgen.Impl
 {
 	/// <summary>
 	/// A ResX resource file generator.
