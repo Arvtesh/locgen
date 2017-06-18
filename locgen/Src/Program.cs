@@ -11,9 +11,12 @@ namespace locgen
 		{
 			var assembly = Assembly.GetEntryAssembly();
 			var assemblyName = Assembly.GetEntryAssembly().GetName();
-			var config = FromArgs(args);
 
-			Console.WriteLine($"{assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description} v{assemblyName.Version}.");
+			Console.WriteLine(assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description);
+			Console.WriteLine("v" + assemblyName.Version);
+			Console.WriteLine();
+
+			var config = FromArgs(args);
 
 			if (config != null)
 			{
@@ -30,23 +33,19 @@ namespace locgen
 					}
 				}
 			}
-			else
-			{
-				// TODO
-			}
 		}
 
 		static ILocConfig FromArgs(string[] args)
 		{
 			var result = new Impl.LocConfig();
+			var settings = new Impl.LocConfigSettings();
+			settings.Parse(result, args);
 
-			result.CodeGenType = CodeGenType.Csharp;
-			result.SourceFileType = SourceFileType.Xliff20;
-			result.SourceFilePath = "./../Samples/text.xlf";
-			result.CodeGenSettings.TargetDir = "c:/Users/Alex/Documents/";
-			result.CodeGenSettings.TargetNamespace = "SampleNamespace";
-			result.CodeGenSettings.GenerateLocKeys = false;
-			result.CodeGenSettings.StaticAccess = true;
+			if (string.IsNullOrEmpty(result.SourceFilePath))
+			{
+				settings.WriteHelp();
+				return null;
+			}
 
 			return result;
 		}
@@ -55,7 +54,25 @@ namespace locgen
 		{
 			using (var stream = new FileStream(config.SourceFilePath, FileMode.Open, FileAccess.Read))
 			{
-				using (var treeBuilder = CreateTreeBuilder(config.SourceFileType))
+				var fileType = config.SourceFileType;
+
+				if (fileType == SourceFileType.Auto)
+				{
+					if (config.SourceFilePath.EndsWith(".xml"))
+					{
+						fileType = SourceFileType.Xml;
+					}
+					else if (config.SourceFilePath.EndsWith(".json"))
+					{
+						fileType = SourceFileType.Json;
+					}
+					else
+					{
+						fileType = SourceFileType.Xliff20;
+					}
+				}
+
+				using (var treeBuilder = CreateTreeBuilder(fileType))
 				{
 					return treeBuilder.Read(stream);
 				}
@@ -85,7 +102,7 @@ namespace locgen
 					return new Impl.CppCodeGenerator(settings);
 
 				default:
-					throw new NotImplementedException();
+					return new Impl.CsharpCodeGenerator(settings);
 			}
 		}
 	}

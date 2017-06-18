@@ -15,6 +15,7 @@ namespace locgen.Impl
 		private const string _defaultResourceManagerClassName = "ResourceManager";
 		private const string _defaultResourceManagerGetStringMethodName = "GetString";
 
+		private string _targetDir = Directory.GetCurrentDirectory();
 		private string _resourceManagerClassName = _defaultResourceManagerClassName;
 		private string _resourceManagerGetStringMethodName = _defaultResourceManagerGetStringMethodName;
 
@@ -23,7 +24,24 @@ namespace locgen.Impl
 
 		#region ILocCodeGeneratorSettings
 
-		public string TargetDir { get; set; }
+		public string TargetDir
+		{
+			get
+			{
+				return _targetDir;
+			}
+			set
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					_targetDir = Directory.GetCurrentDirectory();
+				}
+				else
+				{
+					_targetDir = value;
+				}
+			}
+		}
 
 		public string TargetNamespace { get; set; }
 

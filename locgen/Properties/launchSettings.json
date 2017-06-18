@@ -1,7 +1,8 @@
 {
   "profiles": {
     "locgen": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "/SourceFilePath:./../Samples/text.xlf /CodeGenType:Csharp"
     }
   }
 }
