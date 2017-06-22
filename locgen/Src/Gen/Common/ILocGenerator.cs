@@ -6,13 +6,8 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocCodeGenerator : IDisposable
+	public interface ILocGenerator : IDisposable
 	{
-		/// <summary>
-		/// Returns the code generator settings. Read only.
-		/// </summary>
-		ILocCodeGeneratorSettings Settings { get; }
-
 		/// <summary>
 		/// Returns the generator name. Read only.
 		/// </summary>

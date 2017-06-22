@@ -28,5 +28,15 @@ namespace locgen
 		/// 
 		/// </summary>
 		ILocCodeGeneratorSettings CodeGenSettings { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ResGenType ResGenType { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocResGeneratorSettings ResGenSettings { get; }
 	}
 }

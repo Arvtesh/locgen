@@ -34,6 +34,25 @@ namespace locgen.Impl
 		public IEnumerable<ILocTreeGroup> Groups => _groups;
 		public IEnumerable<ILocTreeUnit> Units => _units;
 
+		public IEnumerable<ILocTreeUnit> UnitsRecursive
+		{
+			get
+			{
+				foreach (var unit in _units)
+				{
+					yield return unit;
+				}
+
+				foreach (var group in _groups)
+				{
+					foreach (var groupUnit in group.UnitsRecursive)
+					{
+						yield return groupUnit;
+					}
+				}
+			}
+		}
+
 		public ILocTreeUnit AddUnit(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))

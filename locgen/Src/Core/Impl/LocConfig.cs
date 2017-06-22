@@ -12,7 +12,8 @@ namespace locgen.Impl
 	{
 		#region data
 
-		private ILocCodeGeneratorSettings _settings = new LocCodeGeneratorSettings();
+		private ILocCodeGeneratorSettings _settings1 = new LocCodeGeneratorSettings();
+		private ILocResGeneratorSettings _settings2 = new LocResGeneratorSettings();
 
 		#endregion
 
@@ -24,7 +25,11 @@ namespace locgen.Impl
 
 		public CodeGenType CodeGenType { get; set; }
 
-		public ILocCodeGeneratorSettings CodeGenSettings => _settings;
+		public ILocCodeGeneratorSettings CodeGenSettings => _settings1;
+
+		public ResGenType ResGenType { get; set; }
+
+		public ILocResGeneratorSettings ResGenSettings => _settings2;
 
 		#endregion
 	}

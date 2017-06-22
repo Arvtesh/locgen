@@ -81,12 +81,12 @@ namespace locgen.Impl
 
 			if (Settings.StaticAccess)
 			{
-				WriteIdent(file, identLevel, "public static class " + tree.Name);
+				WriteIdent(file, identLevel, "public static struct " + tree.Name);
 				WriteIdent(file, identLevel, "{");
 			}
 			else
 			{
-				WriteIdent(file, identLevel, "public partial class " + tree.Name);
+				WriteIdent(file, identLevel, "public partial struct " + tree.Name);
 				WriteIdent(file, identLevel, "{");
 
 				WriteIdent(file, identLevel + 1, $"private readonly {Settings.ResourceManagerClassRef} _resourceManager;");

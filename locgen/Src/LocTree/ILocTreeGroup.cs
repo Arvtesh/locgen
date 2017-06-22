@@ -22,6 +22,11 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
+		IEnumerable<ILocTreeUnit> UnitsRecursive { get; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		ILocTreeUnit AddUnit(string id, string name);
 
 		/// <summary>
