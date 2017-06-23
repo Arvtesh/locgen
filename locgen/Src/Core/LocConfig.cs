@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
 	/// A generic config.
 	/// </summary>
-	internal class LocConfig : ILocConfig
+	internal class LocConfig
 	{
 		#region data
 
-		private ILocCodeGeneratorSettings _settings1 = new LocCodeGeneratorSettings();
-		private ILocResGeneratorSettings _settings2 = new LocResGeneratorSettings();
+		private ILocCodeGeneratorSettings _settings1 = new Impl.LocCodeGeneratorSettings();
+		private ILocResGeneratorSettings _settings2 = new Impl.LocResGeneratorSettings();
 
 		#endregion
 

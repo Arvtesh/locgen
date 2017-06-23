@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace locgen.Impl
@@ -30,7 +31,7 @@ namespace locgen.Impl
 			WriteIdent(file, 1, "<resheader name=\"resmimetype\"><value>text/microsoft-resx</value></resheader>");
 			WriteIdent(file, 1, "<resheader name=\"version\"><value>2.0</value></resheader>");
 
-			foreach (var unit in data.UnitsRecursive)
+			foreach (var unit in data.UnitsRecursive.OfType<ILocTreeText>())
 			{
 				WriteIdent(file, 1, $"<data name=\"{unit.Id}\" xml:space=\"preserve\">");
 				WriteIdent(file, 2, $"<value>{unit.TargetValue}</value>");

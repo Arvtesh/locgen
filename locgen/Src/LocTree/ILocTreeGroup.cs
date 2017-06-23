@@ -27,7 +27,27 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
-		ILocTreeUnit AddUnit(string id, string name);
+		bool TryGetUnit(string id, out ILocTreeUnit unit);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		bool TryGetGroup(string id, out ILocTreeGroup group);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocTreeText AddText(string id, string name);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocTreeTexture AddTexture(string id, string name);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		ILocTreeAudio AddAudio(string id, string name);
 
 		/// <summary>
 		/// 

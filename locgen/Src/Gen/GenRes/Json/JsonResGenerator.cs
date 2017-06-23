@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace locgen.Impl
@@ -28,7 +29,7 @@ namespace locgen.Impl
 			WriteIdent(file, 0, "{");
 			WriteIdent(file, 1, "\"strings\":[");
 
-			foreach (var unit in data.UnitsRecursive)
+			foreach (var unit in data.UnitsRecursive.OfType<ILocTreeText>())
 			{
 				WriteIdent(file, 2, "{");
 				WriteIdent(file, 3, $"\"id\": \"{unit.Id}\"");

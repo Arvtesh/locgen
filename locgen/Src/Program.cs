@@ -43,10 +43,10 @@ namespace locgen
 			}
 		}
 
-		static ILocConfig FromArgs(string[] args)
+		static LocConfig FromArgs(string[] args)
 		{
-			var result = new Impl.LocConfig();
-			var settings = new Impl.LocConfigSettings();
+			var result = new LocConfig();
+			var settings = new LocConfigSettings();
 			settings.Parse(result, args);
 
 			if (string.IsNullOrEmpty(result.SourceFilePath))
