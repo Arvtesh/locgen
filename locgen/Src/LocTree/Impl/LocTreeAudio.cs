@@ -7,26 +7,27 @@ using System.Threading;
 namespace locgen.Impl
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTreeUnit"/>.
+	/// Implementation of <see cref="ILocTreeAudio"/>.
 	/// </summary>
-	internal abstract class LocTreeUnit : LocTreeItem, ILocTreeUnit
+	internal sealed class LocTreeAudio : LocTreeUnit, ILocTreeAudio
 	{
 		#region data
-
-		
-
 		#endregion
 
 		#region interface
 
-		public LocTreeUnit(ILocTreeItem parent, string id, string name)
+		public LocTreeAudio(ILocTreeItem parent, string id, string name)
 			: base(parent, id, name)
 		{
 		}
 
 		#endregion
 
-		#region ILocTreeUnit
+		#region ILocTreeTexture
+
+		public string SrcPath { get; set; }
+		public string TargetPath { get; set; }
+
 		#endregion
 	}
 }

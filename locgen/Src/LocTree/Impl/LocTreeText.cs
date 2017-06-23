@@ -7,19 +7,19 @@ using System.Threading;
 namespace locgen.Impl
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTreeUnit"/>.
+	/// Implementation of <see cref="ILocTreeText"/>.
 	/// </summary>
-	internal abstract class LocTreeUnit : LocTreeItem, ILocTreeUnit
+	internal sealed class LocTreeText : LocTreeUnit, ILocTreeText
 	{
 		#region data
 
-		
+
 
 		#endregion
 
 		#region interface
 
-		public LocTreeUnit(ILocTreeItem parent, string id, string name)
+		public LocTreeText(ILocTreeItem parent, string id, string name)
 			: base(parent, id, name)
 		{
 		}
@@ -27,6 +27,10 @@ namespace locgen.Impl
 		#endregion
 
 		#region ILocTreeUnit
+
+		public string SrcValue { get; set; }
+		public string TargetValue { get; set; }
+
 		#endregion
 	}
 }

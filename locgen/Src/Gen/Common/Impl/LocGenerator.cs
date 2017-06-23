@@ -1,31 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
 namespace locgen.Impl
 {
 	/// <summary>
-	/// A generic code generator.
+	/// A generic resource file generator.
 	/// </summary>
-	internal abstract class LocCodeGenerator : ILocCodeGenerator
+	internal abstract class LocGenerator : ILocGenerator
 	{
 		#region data
 		#endregion
 
 		#region interface
 
-		protected LocCodeGenerator(string name, ILocCodeGeneratorSettings settings)
+		protected LocGenerator(string name)
 		{
 			Name = name;
-			Settings = settings;
 		}
 
 		protected void WriteIdent(StreamWriter file, int identLevel, string s)
 		{
-			if (Settings.IdentSize > 0)
+			var identSize = GetSettings().IdentSize;
+
+			if (identSize > 0)
 			{
-				file.Write(new string(' ', identLevel * Settings.IdentSize));
+				file.Write(new string(' ', identLevel * identSize));
 			}
 			else
 			{
@@ -37,12 +37,11 @@ namespace locgen.Impl
 
 		protected abstract void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken);
 		protected abstract string GetTargetFileExtension();
+		protected abstract ILocGeneratorSettings GetSettings();
 
 		#endregion
 
-		#region ILocCodeGenerator
-
-		public ILocCodeGeneratorSettings Settings { get; }
+		#region IResCodeGenerator
 
 		public string Name { get; }
 
@@ -53,14 +52,9 @@ namespace locgen.Impl
 				throw new ArgumentNullException(nameof(data));
 			}
 
-			if (string.IsNullOrEmpty(Settings.TargetDir))
-			{
-				throw new ArgumentException("No target path specified");
-			}
-
 			cancellationToken.ThrowIfCancellationRequested();
 
-			using (var file = File.CreateText(Path.Combine(Settings.TargetDir, data.Name + GetTargetFileExtension())))
+			using (var file = File.CreateText(Path.Combine(GetSettings().TargetDir, data.Name + GetTargetFileExtension())))
 			{
 				GenerateInternal(data, file, cancellationToken);
 			}

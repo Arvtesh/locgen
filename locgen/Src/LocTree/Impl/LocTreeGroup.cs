@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.IO;
-using System.Threading;
+using System.Linq;
 
 namespace locgen.Impl
 {
@@ -14,9 +12,10 @@ namespace locgen.Impl
 		#region data
 
 		private const string _invalidIdText = "Invalid item identifier";
+		private const string _itemNotMatchText = "Item with identifier '{0}' already exists but its name or type ({1}/{2}) does not match the new item";
 
-		private List<ILocTreeGroup> _groups = new List<ILocTreeGroup>();
-		private List<ILocTreeUnit> _units = new List<ILocTreeUnit>();
+		private Dictionary<string, ILocTreeGroup> _groups = new Dictionary<string, ILocTreeGroup>();
+		private Dictionary<string, ILocTreeUnit> _units = new Dictionary<string, ILocTreeUnit>();
 
 		#endregion
 
@@ -31,19 +30,104 @@ namespace locgen.Impl
 
 		#region ILocTreeGroup
 
-		public IEnumerable<ILocTreeGroup> Groups => _groups;
-		public IEnumerable<ILocTreeUnit> Units => _units;
+		public IEnumerable<ILocTreeGroup> Groups => _groups.Values;
+		public IEnumerable<ILocTreeUnit> Units => _units.Values;
 
-		public ILocTreeUnit AddUnit(string id, string name)
+		public IEnumerable<ILocTreeUnit> UnitsRecursive
+		{
+			get
+			{
+				foreach (var unit in _units.Values)
+				{
+					yield return unit;
+				}
+
+				foreach (var group in _groups.Values)
+				{
+					foreach (var gu in group.UnitsRecursive)
+					{
+						yield return gu;
+					}
+				}
+			}
+		}
+
+		public ILocTreeText AddText(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
 				throw new ArgumentException(_invalidIdText, nameof(id));
 			}
 
-			var unit = new LocTreeUnit(this, id, name);
-			_units.Add(unit);
-			return unit;
+			if (_units.TryGetValue(id, out var unit))
+			{
+				if (unit.Name == name && unit is ILocTreeText textUnit)
+				{
+					return textUnit;
+				}
+				else
+				{
+					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "text"));
+				}
+			}
+			else
+			{
+				var result = new LocTreeText(this, id, name);
+				_units.Add(id, result);
+				return result;
+			}
+		}
+
+		public ILocTreeTexture AddTexture(string id, string name)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				throw new ArgumentException(_invalidIdText, nameof(id));
+			}
+
+			if (_units.TryGetValue(id, out var unit))
+			{
+				if (unit.Name == name && unit is ILocTreeTexture textureUnit)
+				{
+					return textureUnit;
+				}
+				else
+				{
+					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "texture"));
+				}
+			}
+			else
+			{
+				var result = new LocTreeTexture(this, id, name);
+				_units.Add(id, result);
+				return result;
+			}
+		}
+
+		public ILocTreeAudio AddAudio(string id, string name)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				throw new ArgumentException(_invalidIdText, nameof(id));
+			}
+
+			if (_units.TryGetValue(id, out var unit))
+			{
+				if (unit.Name == name && unit is ILocTreeAudio audioUnit)
+				{
+					return audioUnit;
+				}
+				else
+				{
+					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "audio"));
+				}
+			}
+			else
+			{
+				var result = new LocTreeAudio(this, id, name);
+				_units.Add(id, result);
+				return result;
+			}
 		}
 
 		public ILocTreeGroup AddGroup(string id, string name)
@@ -53,11 +137,48 @@ namespace locgen.Impl
 				throw new ArgumentException(_invalidIdText, nameof(id));
 			}
 
-			var group = new LocTreeGroup(this, id, name);
-			_groups.Add(group);
-			return group;
+			if (_groups.TryGetValue(id, out var group))
+			{
+				if (group.Name == name)
+				{
+					return group;
+				}
+				else
+				{
+					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, group.Name, "group"));
+				}
+			}
+			else
+			{
+				var result = new LocTreeGroup(this, id, name);
+				_groups.Add(id, result);
+				return result;
+			}
 		}
 
+		public bool TryGetUnit(string id, out ILocTreeUnit unit)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				throw new ArgumentException(_invalidIdText, nameof(id));
+			}
+
+			return _units.TryGetValue(id, out unit);
+		}
+
+		public bool TryGetGroup(string id, out ILocTreeGroup group)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				throw new ArgumentException(_invalidIdText, nameof(id));
+			}
+
+			return _groups.TryGetValue(id, out group);
+		}
+
+		#endregion
+
+		#region implementation
 		#endregion
 	}
 }

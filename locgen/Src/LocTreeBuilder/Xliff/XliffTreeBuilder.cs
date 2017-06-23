@@ -69,7 +69,7 @@ namespace locgen.Impl
 
 		private void ReadUnit(ILocTreeGroup group, Unit xlfUnit)
 		{
-			var unit = group.AddUnit(xlfUnit.Id, xlfUnit.Name);
+			var unit = group.AddText(xlfUnit.Id, xlfUnit.Name);
 
 			ReadSrcValue(unit, xlfUnit);
 			ReadTargetValue(unit, xlfUnit);
@@ -95,7 +95,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadSrcValue(ILocTreeUnit unit, Unit xlfUnit)
+		private void ReadSrcValue(ILocTreeText unit, Unit xlfUnit)
 		{
 			var segments = xlfUnit.Resources;
 			var segmentsCount = segments.Count;
@@ -128,7 +128,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadTargetValue(ILocTreeUnit unit, Unit xlfUnit)
+		private void ReadTargetValue(ILocTreeText unit, Unit xlfUnit)
 		{
 			var segments = xlfUnit.Resources;
 			var segmentsCount = segments.Count;

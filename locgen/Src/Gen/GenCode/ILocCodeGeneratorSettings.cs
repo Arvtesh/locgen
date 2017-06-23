@@ -28,22 +28,12 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocCodeGeneratorSettings
+	public interface ILocCodeGeneratorSettings : ILocGeneratorSettings
 	{
-		/// <summary>
-		/// Gets or sets the path for the generated file (including file name and extension).
-		/// </summary>
-		string TargetDir { get; set; }
-
 		/// <summary>
 		/// Gets or sets name of the namespace for the generated file.
 		/// </summary>
 		string TargetNamespace { get; set; }
-
-		/// <summary>
-		/// Gets or sets ident size (in spaces) for the generated file.
-		/// </summary>
-		int IdentSize { get; set; }
 
 		/// <summary>
 		/// If <c>true</c> constants class is generated.

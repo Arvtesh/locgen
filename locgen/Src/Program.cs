@@ -22,7 +22,7 @@ namespace locgen
 			{
 				var ct = new CancellationTokenSource();
 
-				foreach (var tree in LoadLocTrees(config))
+				foreach (var tree in LoadLocTrees(config.SourceFilePath, config.SourceFileType))
 				{
 					if (config.CodeGenType != CodeGenType.None)
 					{
@@ -31,14 +31,22 @@ namespace locgen
 							cg.Generate(tree, ct.Token);
 						}
 					}
+
+					if (config.ResGenType != ResGenType.None)
+					{
+						using (var rg = CreateResGenerator(config.ResGenType, config.ResGenSettings))
+						{
+							rg.Generate(tree, ct.Token);
+						}
+					}
 				}
 			}
 		}
 
-		static ILocConfig FromArgs(string[] args)
+		static LocConfig FromArgs(string[] args)
 		{
-			var result = new Impl.LocConfig();
-			var settings = new Impl.LocConfigSettings();
+			var result = new LocConfig();
+			var settings = new LocConfigSettings();
 			settings.Parse(result, args);
 
 			if (string.IsNullOrEmpty(result.SourceFilePath))
@@ -50,29 +58,27 @@ namespace locgen
 			return result;
 		}
 
-		static ILocTree[] LoadLocTrees(ILocConfig config)
+		static ILocTree[] LoadLocTrees(string path, SourceFileType type)
 		{
-			using (var stream = new FileStream(config.SourceFilePath, FileMode.Open, FileAccess.Read))
+			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
-				var fileType = config.SourceFileType;
-
-				if (fileType == SourceFileType.Auto)
+				if (type == SourceFileType.Auto)
 				{
-					if (config.SourceFilePath.EndsWith(".xml"))
+					if (path.EndsWith(".xml"))
 					{
-						fileType = SourceFileType.Xml;
+						type = SourceFileType.Xml;
 					}
-					else if (config.SourceFilePath.EndsWith(".json"))
+					else if (path.EndsWith(".json"))
 					{
-						fileType = SourceFileType.Json;
+						type = SourceFileType.Json;
 					}
 					else
 					{
-						fileType = SourceFileType.Xliff20;
+						type = SourceFileType.Xliff20;
 					}
 				}
 
-				using (var treeBuilder = CreateTreeBuilder(fileType))
+				using (var treeBuilder = CreateTreeBuilder(type))
 				{
 					return treeBuilder.Read(stream);
 				}
@@ -103,6 +109,18 @@ namespace locgen
 
 				default:
 					return new Impl.CsharpCodeGenerator(settings);
+			}
+		}
+
+		static ILocResGenerator CreateResGenerator(ResGenType resGenType, ILocResGeneratorSettings settings)
+		{
+			switch (resGenType)
+			{
+				case ResGenType.ResX:
+					return new Impl.ResxResGenerator(settings);
+
+				default:
+					return new Impl.JsonResGenerator(settings);
 			}
 		}
 	}

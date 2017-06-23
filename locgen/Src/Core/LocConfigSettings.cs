@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
 	/// 
@@ -13,10 +13,10 @@ namespace locgen.Impl
 
 		private struct ArgData
 		{
-			public Action<ILocConfig, string> Initializer { get; }
+			public Action<LocConfig, string> Initializer { get; }
 			public string Description { get; }
 
-			public ArgData(Action<ILocConfig, string> initializer, string desc)
+			public ArgData(Action<LocConfig, string> initializer, string desc)
 			{
 				Initializer = initializer;
 				Description = desc;
@@ -38,7 +38,7 @@ namespace locgen.Impl
 			_args.Add("/CodeGenNamespace", new ArgData(OnCodeGenNamespace, "Namespace to place the generated code to."));
 		}
 
-		public void Parse(ILocConfig config, string[] args)
+		public void Parse(LocConfig config, string[] args)
 		{
 			foreach (var arg in args)
 			{
@@ -71,7 +71,7 @@ namespace locgen.Impl
 
 		#region implementation
 
-		private void OnSourceFileType(ILocConfig config, string value)
+		private void OnSourceFileType(LocConfig config, string value)
 		{
 			if (Enum.TryParse<SourceFileType>(value, out var result))
 			{
@@ -79,12 +79,12 @@ namespace locgen.Impl
 			}
 		}
 
-		private void OnSourceFilePath(ILocConfig config, string value)
+		private void OnSourceFilePath(LocConfig config, string value)
 		{
 			config.SourceFilePath = value;
 		}
 
-		private void OnCodeGenType(ILocConfig config, string value)
+		private void OnCodeGenType(LocConfig config, string value)
 		{
 			if (Enum.TryParse<CodeGenType>(value, out var result))
 			{
@@ -92,12 +92,12 @@ namespace locgen.Impl
 			}
 		}
 
-		private void OnCodeGenTargetDir(ILocConfig config, string value)
+		private void OnCodeGenTargetDir(LocConfig config, string value)
 		{
 			config.CodeGenSettings.TargetDir = value;
 		}
 
-		private void OnCodeGenNamespace(ILocConfig config, string value)
+		private void OnCodeGenNamespace(LocConfig config, string value)
 		{
 			config.CodeGenSettings.TargetNamespace = value;
 		}
