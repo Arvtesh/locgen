@@ -227,28 +227,34 @@ namespace locgen.Impl
 		{
 			var unit = item as ILocTreeUnit;
 			var hasNotes = !string.IsNullOrEmpty(item.Notes);
-			var hasSrcValue = unit != null && !string.IsNullOrEmpty(unit.SrcValue);
 
-			if (hasSrcValue)
+			if (item is ILocTreeText textUnit)
 			{
-				var first = true;
-
-				foreach (var line in unit.SrcValue.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
+				if (!string.IsNullOrEmpty(textUnit.SrcValue))
 				{
-					if (first)
+					var first = true;
+
+					foreach (var line in textUnit.SrcValue.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries))
 					{
-						first = false;
-						WriteIdent(file, identLevel, "// " + item.Path + ": " + line);
+						if (first)
+						{
+							first = false;
+							WriteIdent(file, identLevel, "/// " + item.Path + ": " + line);
+						}
+						else
+						{
+							WriteIdent(file, identLevel, "/// " + line);
+						}
 					}
-					else
-					{
-						WriteIdent(file, identLevel, "// " + line);
-					}
+				}
+				else
+				{
+					WriteIdent(file, identLevel, "/// " + item.Path);
 				}
 			}
 			else
 			{
-				WriteIdent(file, identLevel, "// " + item.Path);
+				WriteIdent(file, identLevel, "/// " + item.Path);
 			}
 
 			WriteIdent(file, identLevel, "// ItemId: " + item.Id);

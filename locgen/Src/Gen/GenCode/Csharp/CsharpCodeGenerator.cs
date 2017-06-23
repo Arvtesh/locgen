@@ -217,8 +217,6 @@ namespace locgen.Impl
 
 		private void WriteLocNotes(StreamWriter file, ILocTreeItem item, int identLevel)
 		{
-			var hasNotes = !string.IsNullOrEmpty(item.Notes);
-
 			WriteIdent(file, identLevel, "/// <summary>");
 
 			if (item is ILocTreeText textUnit)
@@ -256,7 +254,7 @@ namespace locgen.Impl
 			WriteIdent(file, identLevel, "/// ItemId: " + item.Id);
 			WriteIdent(file, identLevel, "/// OriginalName: " + item.OriginalName);
 
-			if (hasNotes)
+			if (!string.IsNullOrEmpty(item.Notes))
 			{
 				var first = true;
 
