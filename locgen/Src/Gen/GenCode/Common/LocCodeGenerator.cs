@@ -12,9 +12,10 @@ namespace locgen.Impl
 	{
 		#region interface
 
-		protected LocCodeGenerator(string name, ILocCodeGeneratorSettings settings)
-			: base(name)
+		protected LocCodeGenerator(CodeGenType type, ILocCodeGeneratorSettings settings)
+			: base(type.ToString())
 		{
+			Type = type;
 			Settings = settings;
 		}
 
@@ -23,6 +24,8 @@ namespace locgen.Impl
 		#endregion
 
 		#region ILocCodeGenerator
+
+		public CodeGenType Type { get; }
 
 		public ILocCodeGeneratorSettings Settings { get; }
 

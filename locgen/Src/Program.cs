@@ -102,13 +102,14 @@ namespace locgen
 			switch (codeGenType)
 			{
 				case CodeGenType.Csharp:
-					return new Impl.CsharpCodeGenerator(settings);
+				case CodeGenType.CsharpUnity3d:
+					return new Impl.CsharpCodeGenerator(codeGenType, settings);
 
 				case CodeGenType.Cpp:
-					return new Impl.CppCodeGenerator(settings);
+					return new Impl.CppCodeGenerator(codeGenType, settings);
 
 				default:
-					return new Impl.CsharpCodeGenerator(settings);
+					return new Impl.CsharpCodeGenerator(codeGenType, settings);
 			}
 		}
 

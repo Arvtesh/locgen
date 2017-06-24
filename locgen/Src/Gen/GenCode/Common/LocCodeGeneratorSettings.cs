@@ -14,9 +14,11 @@ namespace locgen.Impl
 
 		private const string _defaultResourceManagerClassName = "ResourceManager";
 		private const string _defaultResourceManagerGetStringMethodName = "GetString";
+		private const string _defaultResourceManagerGetObjectMethodName = "GetObject";
 
 		private string _resourceManagerClassName = _defaultResourceManagerClassName;
 		private string _resourceManagerGetStringMethodName = _defaultResourceManagerGetStringMethodName;
+		private string _resourceManagerGetObjectMethodName = _defaultResourceManagerGetObjectMethodName;
 
 		#endregion
 
@@ -62,6 +64,25 @@ namespace locgen.Impl
 				else
 				{
 					_resourceManagerGetStringMethodName = value;
+				}
+			}
+		}
+
+		public string ResourceManagerGetObjectMethod
+		{
+			get
+			{
+				return _resourceManagerGetObjectMethodName;
+			}
+			set
+			{
+				if (string.IsNullOrEmpty(value))
+				{
+					_resourceManagerGetObjectMethodName = _defaultResourceManagerGetObjectMethodName;
+				}
+				else
+				{
+					_resourceManagerGetObjectMethodName = value;
 				}
 			}
 		}

@@ -22,6 +22,11 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
+		CsharpUnity3d,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		Cpp,
 	}
 
@@ -54,5 +59,10 @@ namespace locgen
 		/// Gets or sets name of the GetString() method of the resource manager class specified with <see cref="ResourceManagerClassRef"/>.
 		/// </summary>
 		string ResourceManagerGetStringMethod { get; set; }
+
+		/// <summary>
+		/// Gets or sets name of the GetObject() method of the resource manager class specified with <see cref="ResourceManagerClassRef"/>.
+		/// </summary>
+		string ResourceManagerGetObjectMethod { get; set; }
 	}
 }

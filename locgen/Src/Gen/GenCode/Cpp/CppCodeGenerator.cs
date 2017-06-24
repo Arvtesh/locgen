@@ -16,8 +16,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public CppCodeGenerator(ILocCodeGeneratorSettings settings)
-			: base(CodeGenType.Cpp.ToString(), settings)
+		public CppCodeGenerator(CodeGenType type, ILocCodeGeneratorSettings settings)
+			: base(type, settings)
 		{
 		}
 

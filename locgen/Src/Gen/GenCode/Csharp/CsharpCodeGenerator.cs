@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.IO;
 using System.Threading;
 
@@ -16,8 +15,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public CsharpCodeGenerator(ILocCodeGeneratorSettings settings)
-			: base(CodeGenType.Csharp.ToString(), settings)
+		public CsharpCodeGenerator(CodeGenType type, ILocCodeGeneratorSettings settings)
+			: base(type, settings)
 		{
 		}
 
@@ -57,7 +56,18 @@ namespace locgen.Impl
 			cancellationToken.ThrowIfCancellationRequested();
 
 			file.WriteLine("using System;");
-			file.WriteLine("using System.Resources;");
+
+			if (Type == CodeGenType.Csharp)
+			{
+				file.WriteLine("using System.Drawing;");
+				file.WriteLine("using System.Resources;");
+			}
+			else if (Type == CodeGenType.CsharpUnity3d)
+			{
+				file.WriteLine("using System.Resources;");
+				file.WriteLine("using UnityEngine;");
+			}
+
 			file.WriteLine();
 
 			if (string.IsNullOrEmpty(Settings.TargetNamespace))
@@ -197,13 +207,53 @@ namespace locgen.Impl
 
 			WriteLocNotes(file, unit, identLevel);
 
-			if (Settings.StaticAccess)
+			if (unit is ILocTreeText && !string.IsNullOrEmpty(Settings.ResourceManagerGetStringMethod))
 			{
-				WriteIdent(file, identLevel, $"public static string {unit.Name} {{ get {{ return {Settings.ResourceManagerClassRef}.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				if (Settings.StaticAccess)
+				{
+					WriteIdent(file, identLevel, $"public static string {unit.Name} {{ get {{ return {Settings.ResourceManagerClassRef}.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				}
+				else
+				{
+					WriteIdent(file, identLevel, $"public string {unit.Name} {{ get {{ return _resourceManager.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				}
 			}
 			else
 			{
-				WriteIdent(file, identLevel, $"public string {unit.Name} {{ get {{ return _resourceManager.{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }} }}");
+				var type = "object";
+
+				if (unit is ILocTreeText)
+				{
+					type = "string";
+				}
+				else if (Type == CodeGenType.CsharpUnity3d)
+				{
+					if (unit is ILocTreeTexture)
+					{
+						type = "Texture";
+
+					}
+					else if (unit is ILocTreeAudio)
+					{
+						type = "AudioClip";
+					}
+				}
+				else
+				{
+					if (unit is ILocTreeTexture)
+					{
+						type = "Image";
+					}
+				}
+
+				if (Settings.StaticAccess)
+				{
+					WriteIdent(file, identLevel, $"public static {type} {unit.Name} {{ get {{ return {Settings.ResourceManagerClassRef}.{Settings.ResourceManagerGetObjectMethod}(\"{unit.Id}\") as {type}; }} }}");
+				}
+				else
+				{
+					WriteIdent(file, identLevel, $"public {type} {unit.Name} {{ get {{ return _resourceManager.{Settings.ResourceManagerGetObjectMethod}(\"{unit.Id}\") as {type}; }} }}");
+				}
 			}
 		}
 
