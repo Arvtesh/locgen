@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "locgen", "locgen\locgen.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xliff2.OM", "Xliff2.OM\Xliff2.OM.csproj", "{A114EB09-E722-492E-8A4A-A9DFCA51A166}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "locgen.OM", "locgen.OM\locgen.OM.csproj", "{A18F86B6-27C6-4A9C-B7E6-9CDC0103C38C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocTree.OM", "LocTree.OM\LocTree.OM.csproj", "{A18F86B6-27C6-4A9C-B7E6-9CDC0103C38C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
