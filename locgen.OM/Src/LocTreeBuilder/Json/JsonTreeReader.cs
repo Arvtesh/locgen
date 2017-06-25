@@ -9,14 +9,14 @@ namespace locgen.Impl
 	/// <summary>
 	/// A JSON tree builder.
 	/// </summary>
-	internal sealed class JsonTreeBuilder : LocTreeBuilder
+	internal sealed class JsonTreeReader : LocTreeReader
 	{
 		#region data
 		#endregion
 
 		#region interface
 
-		public JsonTreeBuilder()
+		public JsonTreeReader()
 			: base(LocTreeSourceType.Json.ToString())
 		{
 		}

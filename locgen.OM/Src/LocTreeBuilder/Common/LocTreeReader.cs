@@ -7,16 +7,19 @@ namespace locgen.Impl
 	/// <summary>
 	/// A generic resource file generator.
 	/// </summary>
-	internal abstract class LocTreeBuilder : ILocTreeBuilder
+	internal abstract class LocTreeReader : ILocTreeReader
 	{
 		#region data
+
+		private readonly string _name;
+
 		#endregion
 
 		#region interface
 
-		protected LocTreeBuilder(string name)
+		protected LocTreeReader(string name)
 		{
-			Name = name;
+			_name = name;
 		}
 
 		protected abstract void ReadInternal(ILocTreeSet treeSet, Stream stream);
@@ -24,8 +27,6 @@ namespace locgen.Impl
 		#endregion
 
 		#region ILocTreeBuilder
-
-		public string Name { get; }
 
 		public void Read(ILocTreeSet treeSet, Stream stream)
 		{

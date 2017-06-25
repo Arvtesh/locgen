@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Localization.Xliff.OM;
@@ -11,14 +10,14 @@ namespace locgen.Impl
 	/// <summary>
 	/// A XLIFF tree builder.
 	/// </summary>
-	internal sealed class XliffTreeBuilder : LocTreeBuilder
+	internal sealed class XliffTreeReader : LocTreeReader
 	{
 		#region data
 		#endregion
 
 		#region interface
 
-		public XliffTreeBuilder()
+		public XliffTreeReader()
 			: base(LocTreeSourceType.Xliff20.ToString())
 		{
 		}

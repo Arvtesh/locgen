@@ -7,13 +7,8 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocTreeBuilder : IDisposable
+	public interface ILocTreeReader : IDisposable
 	{
-		/// <summary>
-		/// Returns the generator name. Read only.
-		/// </summary>
-		string Name { get; }
-
 		/// <summary>
 		/// Reads the <see cref="ILocTreeSet"/> instance from the specified stream.
 		/// </summary>

@@ -78,7 +78,7 @@ namespace locgen
 					}
 				}
 
-				using (var treeBuilder = LocTree.CreateBuilder(type))
+				using (var treeBuilder = LocTree.CreateReader(type))
 				{
 					var result = LocTree.CreateSet();
 					treeBuilder.Read(result, stream);

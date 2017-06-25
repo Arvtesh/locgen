@@ -43,15 +43,15 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
-		public static ILocTreeBuilder CreateBuilder(LocTreeSourceType fileType = LocTreeSourceType.Auto)
+		public static ILocTreeReader CreateReader(LocTreeSourceType fileType = LocTreeSourceType.Auto)
 		{
 			switch (fileType)
 			{
 				case LocTreeSourceType.Xliff20:
-					return new Impl.XliffTreeBuilder();
+					return new Impl.XliffTreeReader();
 
 				case LocTreeSourceType.Json:
-					return new Impl.JsonTreeBuilder();
+					return new Impl.JsonTreeReader();
 
 				default:
 					throw new NotImplementedException();
