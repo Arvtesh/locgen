@@ -7,7 +7,7 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocTreeSettings
+	public interface ILocTree : ILocTreeGroup
 	{
 	}
 }

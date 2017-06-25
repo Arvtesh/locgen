@@ -7,11 +7,11 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocTree : ILocTreeGroup
+	public interface ILocTreeSet : IEnumerable<ILocTree>
 	{
 		/// <summary>
-		/// Returns global settings for the localization data in this instance. Read only.
+		/// 
 		/// </summary>
-		ILocTreeSettings Settings { get; }
+		ILocTree Add(string id, string name);
 	}
 }

@@ -11,8 +11,8 @@ namespace locgen.Impl
 	{
 		#region data
 
-		private const string _invalidIdText = "Invalid item identifier";
-		private const string _itemNotMatchText = "Item with identifier '{0}' already exists but its name or type ({1}/{2}) does not match the new item";
+		public const string InvalidIdText = "Invalid item identifier";
+		public const string ItemNotMatchText = "Item with identifier '{0}' already exists but its name or type ({1}/{2}) does not match the new item";
 
 		private Dictionary<string, ILocTreeGroup> _groups = new Dictionary<string, ILocTreeGroup>();
 		private Dictionary<string, ILocTreeUnit> _units = new Dictionary<string, ILocTreeUnit>();
@@ -56,7 +56,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			if (_units.TryGetValue(id, out var unit))
@@ -67,7 +67,7 @@ namespace locgen.Impl
 				}
 				else
 				{
-					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "text"));
+					throw new InvalidOperationException(string.Format(ItemNotMatchText, id, unit.Name, "text"));
 				}
 			}
 			else
@@ -82,7 +82,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			if (_units.TryGetValue(id, out var unit))
@@ -93,7 +93,7 @@ namespace locgen.Impl
 				}
 				else
 				{
-					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "texture"));
+					throw new InvalidOperationException(string.Format(ItemNotMatchText, id, unit.Name, "texture"));
 				}
 			}
 			else
@@ -108,7 +108,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			if (_units.TryGetValue(id, out var unit))
@@ -119,7 +119,7 @@ namespace locgen.Impl
 				}
 				else
 				{
-					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, unit.Name, "audio"));
+					throw new InvalidOperationException(string.Format(ItemNotMatchText, id, unit.Name, "audio"));
 				}
 			}
 			else
@@ -134,7 +134,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			if (_groups.TryGetValue(id, out var group))
@@ -145,7 +145,7 @@ namespace locgen.Impl
 				}
 				else
 				{
-					throw new InvalidOperationException(string.Format(_itemNotMatchText, id, group.Name, "group"));
+					throw new InvalidOperationException(string.Format(ItemNotMatchText, id, group.Name, "group"));
 				}
 			}
 			else
@@ -160,7 +160,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			return _units.TryGetValue(id, out unit);
@@ -170,7 +170,7 @@ namespace locgen.Impl
 		{
 			if (string.IsNullOrEmpty(id))
 			{
-				throw new ArgumentException(_invalidIdText, nameof(id));
+				throw new ArgumentException(InvalidIdText, nameof(id));
 			}
 
 			return _groups.TryGetValue(id, out group);

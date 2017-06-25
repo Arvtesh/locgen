@@ -19,7 +19,7 @@ namespace locgen
 
 		#region interface
 
-		public SourceFileType SourceFileType { get; set; }
+		public LocTreeSourceType SourceFileType { get; set; }
 
 		public string SourceFilePath { get; set; }
 

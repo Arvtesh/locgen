@@ -19,7 +19,7 @@ namespace locgen.Impl
 			Name = name;
 		}
 
-		protected abstract ILocTree[] ReadInternal(Stream stream);
+		protected abstract void ReadInternal(ILocTreeSet treeSet, Stream stream);
 
 		#endregion
 
@@ -27,14 +27,19 @@ namespace locgen.Impl
 
 		public string Name { get; }
 
-		public ILocTree[] Read(Stream stream)
+		public void Read(ILocTreeSet treeSet, Stream stream)
 		{
+			if (treeSet == null)
+			{
+				throw new ArgumentNullException(nameof(treeSet));
+			}
+
 			if (stream == null)
 			{
 				throw new ArgumentNullException(nameof(stream));
 			}
 
-			return ReadInternal(stream);
+			ReadInternal(treeSet, stream);
 		}
 
 		#endregion

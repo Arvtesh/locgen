@@ -58,42 +58,32 @@ namespace locgen
 			return result;
 		}
 
-		static ILocTree[] LoadLocTrees(string path, SourceFileType type)
+		static ILocTreeSet LoadLocTrees(string path, LocTreeSourceType type)
 		{
 			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
-				if (type == SourceFileType.Auto)
+				if (type == LocTreeSourceType.Auto)
 				{
 					if (path.EndsWith(".xml"))
 					{
-						type = SourceFileType.Xml;
+						type = LocTreeSourceType.Xml;
 					}
 					else if (path.EndsWith(".json"))
 					{
-						type = SourceFileType.Json;
+						type = LocTreeSourceType.Json;
 					}
 					else
 					{
-						type = SourceFileType.Xliff20;
+						type = LocTreeSourceType.Xliff20;
 					}
 				}
 
-				using (var treeBuilder = CreateTreeBuilder(type))
+				using (var treeBuilder = LocTree.CreateBuilder(type))
 				{
-					return treeBuilder.Read(stream);
+					var result = LocTree.CreateSet();
+					treeBuilder.Read(result, stream);
+					return result;
 				}
-			}
-		}
-
-		static ILocTreeBuilder CreateTreeBuilder(SourceFileType fileType)
-		{
-			switch (fileType)
-			{
-				case SourceFileType.Xliff20:
-					return new Impl.XliffTreeBuilder();
-
-				default:
-					throw new NotImplementedException();
 			}
 		}
 

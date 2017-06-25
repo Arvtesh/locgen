@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xliff2.OM\Xliff2.OM.csproj" />
+    <ProjectReference Include="..\locgen.OM\locgen.OM.csproj" />
   </ItemGroup>
 
 </Project>

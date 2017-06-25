@@ -73,7 +73,7 @@ namespace locgen
 
 		private void OnSourceFileType(LocConfig config, string value)
 		{
-			if (Enum.TryParse<SourceFileType>(value, out var result))
+			if (Enum.TryParse<LocTreeSourceType>(value, out var result))
 			{
 				config.SourceFileType = result;
 			}

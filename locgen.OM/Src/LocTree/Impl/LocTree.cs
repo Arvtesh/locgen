@@ -9,7 +9,7 @@ namespace locgen.Impl
 	/// <summary>
 	/// Implementation of <see cref="ILocTree"/>.
 	/// </summary>
-	internal class LocTree : LocTreeGroup, ILocTree, ILocTreeSettings
+	internal class LocTree : LocTreeGroup, ILocTree
 	{
 		#region data
 		#endregion
@@ -24,9 +24,6 @@ namespace locgen.Impl
 		#endregion
 
 		#region ILocTree
-
-		public ILocTreeSettings Settings => this;
-
 		#endregion
 	}
 }

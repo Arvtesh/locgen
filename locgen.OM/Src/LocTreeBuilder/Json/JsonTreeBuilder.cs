@@ -17,7 +17,7 @@ namespace locgen.Impl
 		#region interface
 
 		public JsonTreeBuilder()
-			: base(SourceFileType.Json.ToString())
+			: base(LocTreeSourceType.Json.ToString())
 		{
 		}
 
@@ -25,22 +25,20 @@ namespace locgen.Impl
 
 		#region LocTreeBuilder
 
-		protected override ILocTree[] ReadInternal(Stream stream)
+		protected override void ReadInternal(ILocTreeSet treeSet, Stream stream)
 		{
 			using (var textStream = new StreamReader(stream))
 			{
 				using (var textStreamReader = new JsonTextReader(textStream))
 				{
 					var serializer = JsonSerializer.Create();
-					var tree = serializer.Deserialize<JsonDataTree>(textStreamReader);
-					var result = new ILocTree[tree.Files.Length];
+					var treeData = serializer.Deserialize<JsonDataTree>(textStreamReader);
 
-					for (int i = 0; i < result.Length; ++i)
+					foreach (var file in treeData.Files)
 					{
-						result[i] = ReadTree(tree.Files[i]);
+						var tree = treeSet.Add(file.Id, file.Name);
+						ReadTree(tree, file);
 					}
-
-					return result;
 				}
 			}
 		}
@@ -49,10 +47,8 @@ namespace locgen.Impl
 
 		#region implementation
 
-		private ILocTree ReadTree(JsonDataGroup jsonDataGroup)
+		private void ReadTree(ILocTree tree, JsonDataGroup jsonDataGroup)
 		{
-			var tree = new LocTree(jsonDataGroup.Id, jsonDataGroup.Name);
-
 			tree.Notes = jsonDataGroup.Notes;
 
 			foreach (var u in jsonDataGroup.Units)
@@ -64,8 +60,6 @@ namespace locgen.Impl
 			{
 				ReadGroup(tree, g);
 			}
-
-			return tree;
 		}
 
 		private void ReadGroup(ILocTreeGroup group, JsonDataGroup groupData)

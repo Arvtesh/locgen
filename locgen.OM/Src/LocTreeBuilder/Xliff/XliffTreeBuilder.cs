@@ -19,7 +19,7 @@ namespace locgen.Impl
 		#region interface
 
 		public XliffTreeBuilder()
-			: base(SourceFileType.Xliff20.ToString())
+			: base(LocTreeSourceType.Xliff20.ToString())
 		{
 		}
 
@@ -27,29 +27,24 @@ namespace locgen.Impl
 
 		#region LocTreeBuilder
 
-		protected override ILocTree[] ReadInternal(Stream stream)
+		protected override void ReadInternal(ILocTreeSet treeSet, Stream stream)
 		{
 			var reader = new XliffReader();
 			var doc = reader.Deserialize(stream);
-			var files = doc.Files;
-			var result = new ILocTree[files.Count];
 
-			for (int i = 0; i < result.Length; ++i)
+			foreach (var file in doc.Files)
 			{
-				result[i] = ReadTree(files[i]);
+				var tree = treeSet.Add(file.Id, file.Id);
+				ReadTree(tree, file);
 			}
-
-			return result;
 		}
 
 		#endregion
 
 		#region implementation
 
-		private ILocTree ReadTree(Localization.Xliff.OM.Core.File file)
+		private void ReadTree(ILocTree tree, Localization.Xliff.OM.Core.File file)
 		{
-			var tree = new LocTree(file.Id, file.Id);
-
 			ReadNotes(tree, file);
 
 			foreach (var c in file.Containers)
@@ -63,8 +58,6 @@ namespace locgen.Impl
 					ReadGroup(tree, g);
 				}
 			}
-
-			return tree;
 		}
 
 		private void ReadUnit(ILocTreeGroup group, Unit xlfUnit)
