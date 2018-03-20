@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace locgen.Impl
+namespace locgen
 {
+	public enum LocTreeSourceType
+	{
+		Auto,
+		Json,
+		Xml,
+		Xliff12,
+		Xliff20
+	}
+
 	/// <summary>
 	/// A generic resource file generator.
 	/// </summary>
-	internal abstract class LocTreeReader : ILocTreeReader
+	public abstract class LocTreeReader : IDisposable
 	{
 		#region data
 
@@ -22,13 +31,22 @@ namespace locgen.Impl
 			_name = name;
 		}
 
-		protected abstract void ReadInternal(ILocTreeSet treeSet, Stream stream);
+		public static LocTreeReader Create(LocTreeSourceType fileType = LocTreeSourceType.Auto)
+		{
+			switch (fileType)
+			{
+				case LocTreeSourceType.Xliff20:
+					return new XliffTreeReader();
 
-		#endregion
+				case LocTreeSourceType.Json:
+					return new JsonTreeReader();
 
-		#region ILocTreeBuilder
+				default:
+					throw new NotImplementedException();
+			}
+		}
 
-		public void Read(ILocTreeSet treeSet, Stream stream)
+		public void Read(LocTreeSet treeSet, Stream stream)
 		{
 			if (treeSet == null)
 			{
@@ -42,6 +60,8 @@ namespace locgen.Impl
 
 			ReadInternal(treeSet, stream);
 		}
+
+		protected abstract void ReadInternal(LocTreeSet treeSet, Stream stream);
 
 		#endregion
 

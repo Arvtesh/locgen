@@ -5,7 +5,7 @@ using Localization.Xliff.OM;
 using Localization.Xliff.OM.Core;
 using Localization.Xliff.OM.Serialization;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
 	/// A XLIFF tree builder.
@@ -24,9 +24,9 @@ namespace locgen.Impl
 
 		#endregion
 
-		#region LocTreeBuilder
+		#region LocTreeReader
 
-		protected override void ReadInternal(ILocTreeSet treeSet, Stream stream)
+		protected override void ReadInternal(LocTreeSet treeSet, Stream stream)
 		{
 			var reader = new XliffReader();
 			var doc = reader.Deserialize(stream);
@@ -42,7 +42,7 @@ namespace locgen.Impl
 
 		#region implementation
 
-		private void ReadTree(ILocTree tree, Localization.Xliff.OM.Core.File file)
+		private void ReadTree(LocTree tree, Localization.Xliff.OM.Core.File file)
 		{
 			ReadNotes(tree, file);
 
@@ -59,7 +59,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadUnit(ILocTreeGroup group, Unit xlfUnit)
+		private void ReadUnit(LocTreeGroup group, Unit xlfUnit)
 		{
 			var unit = group.AddText(xlfUnit.Id, xlfUnit.Name);
 
@@ -68,7 +68,7 @@ namespace locgen.Impl
 			ReadNotes(unit, xlfUnit);
 		}
 
-		private void ReadGroup(ILocTreeGroup group, Group xlfGroup)
+		private void ReadGroup(LocTreeGroup group, Group xlfGroup)
 		{
 			var childGroup = group.AddGroup(xlfGroup.Id, xlfGroup.Name);
 
@@ -87,7 +87,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadSrcValue(ILocTreeText unit, Unit xlfUnit)
+		private void ReadSrcValue(LocTreeText unit, Unit xlfUnit)
 		{
 			var segments = xlfUnit.Resources;
 			var segmentsCount = segments.Count;
@@ -120,7 +120,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadTargetValue(ILocTreeText unit, Unit xlfUnit)
+		private void ReadTargetValue(LocTreeText unit, Unit xlfUnit)
 		{
 			var segments = xlfUnit.Resources;
 			var segmentsCount = segments.Count;
@@ -158,7 +158,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadNotes(ILocTreeItem item, INoteContainer xlfNotes)
+		private void ReadNotes(LocTreeItem item, INoteContainer xlfNotes)
 		{
 			if (xlfNotes.HasNotes)
 			{

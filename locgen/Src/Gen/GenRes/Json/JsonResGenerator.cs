@@ -15,7 +15,7 @@ namespace locgen.Impl
 
 		#region interface
 
-		public JsonResGenerator(ILocResGeneratorSettings settings)
+		public JsonResGenerator(LocResGeneratorSettings settings)
 			: base(ResGenType.Json.ToString(), settings)
 		{
 		}
@@ -24,21 +24,26 @@ namespace locgen.Impl
 
 		#region LocCodeGenerator
 
-		protected override void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken)
+		protected override void GenerateInternal(LocTree data, string path, CancellationToken cancellationToken)
 		{
-			WriteIdent(file, 0, "{");
-			WriteIdent(file, 1, "\"strings\":[");
-
-			foreach (var unit in data.UnitsRecursive.OfType<ILocTreeText>())
+			using (var file = File.CreateText(path))
 			{
-				WriteIdent(file, 2, "{");
-				WriteIdent(file, 3, $"\"id\": \"{unit.Id}\"");
-				WriteIdent(file, 3, $"\"value\": \"{unit.TargetValue}\"");
-				WriteIdent(file, 2, "}");
-			}
+				WriteIdent(file, 0, "{");
+				WriteIdent(file, 1, "\"strings\":[");
 
-			WriteIdent(file, 1, "]");
-			WriteIdent(file, 0, "}");
+				foreach (var unit in data.UnitsRecursive.OfType<LocTreeText>())
+				{
+					var value = string.IsNullOrEmpty(unit.TargetValue) ? unit.SrcValue : unit.TargetValue;
+
+					WriteIdent(file, 2, "{");
+					WriteIdent(file, 3, $"\"id\": \"{unit.Id}\"");
+					WriteIdent(file, 3, $"\"value\": \"{value}\"");
+					WriteIdent(file, 2, "}");
+				}
+
+				WriteIdent(file, 1, "]");
+				WriteIdent(file, 0, "}");
+			}
 		}
 
 		protected override string GetTargetFileExtension()

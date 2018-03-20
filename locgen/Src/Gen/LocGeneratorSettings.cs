@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocResGeneratorSettings"/>.
+	/// 
 	/// </summary>
-	internal abstract class LocGeneratorSettings : ILocGeneratorSettings
+	internal abstract class LocGeneratorSettings
 	{
 		#region data
 
@@ -16,8 +16,11 @@ namespace locgen.Impl
 
 		#endregion
 
-		#region ILocResGeneratorSettings
+		#region interface
 
+		/// <summary>
+		/// Gets or sets the path for the generated file (including file name and extension).
+		/// </summary>
 		public string TargetDir
 		{
 			get
@@ -37,6 +40,9 @@ namespace locgen.Impl
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets ident size (in spaces) for the generated file.
+		/// </summary>
 		public int IdentSize { get; set; }
 
 		#endregion

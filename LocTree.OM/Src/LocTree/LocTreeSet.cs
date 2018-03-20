@@ -2,25 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTreeSet"/>.
+	/// 
 	/// </summary>
-	internal sealed class LocTreeSet : ILocTreeSet
+	public sealed class LocTreeSet : IEnumerable<LocTree>
 	{
 		#region data
 
-		private Dictionary<string, ILocTree> _trees = new Dictionary<string, ILocTree>();
+		private Dictionary<string, LocTree> _trees = new Dictionary<string, LocTree>();
 
 		#endregion
 
 		#region interface
-		#endregion
 
-		#region ILocTreeSet
-
-		public ILocTree Add(string id, string name)
+		public LocTree Add(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -50,7 +47,7 @@ namespace locgen.Impl
 
 		#region IEnumerable
 
-		public IEnumerator<ILocTree> GetEnumerator()
+		public IEnumerator<LocTree> GetEnumerator()
 		{
 			return _trees.Values.GetEnumerator();
 		}

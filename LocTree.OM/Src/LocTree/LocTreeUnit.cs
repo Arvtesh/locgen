@@ -4,26 +4,23 @@ using System.Reflection;
 using System.IO;
 using System.Threading;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTree"/>.
+	/// 
 	/// </summary>
-	internal class LocTree : LocTreeGroup, ILocTree
+	public abstract class LocTreeUnit : LocTreeItem
 	{
 		#region data
 		#endregion
 
 		#region interface
 
-		public LocTree(string id, string name)
-			: base(null, id, name)
+		public LocTreeUnit(LocTreeItem parent, string id, string name)
+			: base(parent, id, name)
 		{
 		}
 
-		#endregion
-
-		#region ILocTree
 		#endregion
 	}
 }

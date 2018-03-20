@@ -2,38 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTreeGroup"/>.
+	/// 
 	/// </summary>
-	internal class LocTreeGroup : LocTreeItem, ILocTreeGroup
+	public class LocTreeGroup : LocTreeItem
 	{
 		#region data
 
 		public const string InvalidIdText = "Invalid item identifier";
 		public const string ItemNotMatchText = "Item with identifier '{0}' already exists but its name or type ({1}/{2}) does not match the new item";
 
-		private Dictionary<string, ILocTreeGroup> _groups = new Dictionary<string, ILocTreeGroup>();
-		private Dictionary<string, ILocTreeUnit> _units = new Dictionary<string, ILocTreeUnit>();
+		private Dictionary<string, LocTreeGroup> _groups = new Dictionary<string, LocTreeGroup>();
+		private Dictionary<string, LocTreeUnit> _units = new Dictionary<string, LocTreeUnit>();
 
 		#endregion
 
 		#region interface
 
-		public LocTreeGroup(ILocTreeItem parent, string id, string name)
-			: base(parent, id, name)
-		{
-		}
+		public IEnumerable<LocTreeGroup> Groups => _groups.Values;
+		public IEnumerable<LocTreeUnit> Units => _units.Values;
 
-		#endregion
-
-		#region ILocTreeGroup
-
-		public IEnumerable<ILocTreeGroup> Groups => _groups.Values;
-		public IEnumerable<ILocTreeUnit> Units => _units.Values;
-
-		public IEnumerable<ILocTreeUnit> UnitsRecursive
+		public IEnumerable<LocTreeUnit> UnitsRecursive
 		{
 			get
 			{
@@ -52,7 +43,12 @@ namespace locgen.Impl
 			}
 		}
 
-		public ILocTreeText AddText(string id, string name)
+		public LocTreeGroup(LocTreeItem parent, string id, string name)
+			: base(parent, id, name)
+		{
+		}
+
+		public LocTreeText AddText(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -61,7 +57,7 @@ namespace locgen.Impl
 
 			if (_units.TryGetValue(id, out var unit))
 			{
-				if (unit.Name == name && unit is ILocTreeText textUnit)
+				if (unit.Name == name && unit is LocTreeText textUnit)
 				{
 					return textUnit;
 				}
@@ -78,7 +74,7 @@ namespace locgen.Impl
 			}
 		}
 
-		public ILocTreeTexture AddTexture(string id, string name)
+		public LocTreeTexture AddTexture(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -87,7 +83,7 @@ namespace locgen.Impl
 
 			if (_units.TryGetValue(id, out var unit))
 			{
-				if (unit.Name == name && unit is ILocTreeTexture textureUnit)
+				if (unit.Name == name && unit is LocTreeTexture textureUnit)
 				{
 					return textureUnit;
 				}
@@ -104,7 +100,7 @@ namespace locgen.Impl
 			}
 		}
 
-		public ILocTreeAudio AddAudio(string id, string name)
+		public LocTreeAudio AddAudio(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -113,7 +109,7 @@ namespace locgen.Impl
 
 			if (_units.TryGetValue(id, out var unit))
 			{
-				if (unit.Name == name && unit is ILocTreeAudio audioUnit)
+				if (unit.Name == name && unit is LocTreeAudio audioUnit)
 				{
 					return audioUnit;
 				}
@@ -130,7 +126,7 @@ namespace locgen.Impl
 			}
 		}
 
-		public ILocTreeGroup AddGroup(string id, string name)
+		public LocTreeGroup AddGroup(string id, string name)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -156,7 +152,7 @@ namespace locgen.Impl
 			}
 		}
 
-		public bool TryGetUnit(string id, out ILocTreeUnit unit)
+		public bool TryGetUnit(string id, out LocTreeUnit unit)
 		{
 			if (string.IsNullOrEmpty(id))
 			{
@@ -166,7 +162,7 @@ namespace locgen.Impl
 			return _units.TryGetValue(id, out unit);
 		}
 
-		public bool TryGetGroup(string id, out ILocTreeGroup group)
+		public bool TryGetGroup(string id, out LocTreeGroup group)
 		{
 			if (string.IsNullOrEmpty(id))
 			{

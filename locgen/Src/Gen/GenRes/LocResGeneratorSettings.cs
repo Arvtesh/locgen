@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Threading;
 
 namespace locgen
 {
@@ -28,7 +29,7 @@ namespace locgen
 	/// <summary>
 	/// 
 	/// </summary>
-	public interface ILocResGeneratorSettings : ILocGeneratorSettings
+	internal sealed class LocResGeneratorSettings : LocGeneratorSettings
 	{
 	}
 }

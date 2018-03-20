@@ -58,7 +58,7 @@ namespace locgen
 			return result;
 		}
 
-		static ILocTreeSet LoadLocTrees(string path, LocTreeSourceType type)
+		static LocTreeSet LoadLocTrees(string path, LocTreeSourceType type)
 		{
 			using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
 			{
@@ -78,32 +78,34 @@ namespace locgen
 					}
 				}
 
-				using (var treeBuilder = LocTree.CreateReader(type))
+				using (var treeBuilder = LocTreeReader.Create(type))
 				{
-					var result = LocTree.CreateSet();
+					var result = new LocTreeSet();
 					treeBuilder.Read(result, stream);
 					return result;
 				}
 			}
 		}
 
-		static ILocCodeGenerator CreateCodeGenerator(CodeGenType codeGenType, ILocCodeGeneratorSettings settings)
+		static LocCodeGenerator CreateCodeGenerator(CodeGenType codeGenType, LocCodeGeneratorSettings settings)
 		{
 			switch (codeGenType)
 			{
 				case CodeGenType.Csharp:
+					return new Impl.CsharpCodeGenerator(settings, false);
+
 				case CodeGenType.CsharpUnity3d:
-					return new Impl.CsharpCodeGenerator(codeGenType, settings);
+					return new Impl.CsharpCodeGenerator(settings, true);
 
 				case CodeGenType.Cpp:
-					return new Impl.CppCodeGenerator(codeGenType, settings);
+					return new Impl.CppCodeGenerator(settings);
 
 				default:
-					return new Impl.CsharpCodeGenerator(codeGenType, settings);
+					return new Impl.CsharpCodeGenerator(settings, false);
 			}
 		}
 
-		static ILocResGenerator CreateResGenerator(ResGenType resGenType, ILocResGeneratorSettings settings)
+		static LocResGenerator CreateResGenerator(ResGenType resGenType, LocResGeneratorSettings settings)
 		{
 			switch (resGenType)
 			{

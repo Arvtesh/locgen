@@ -2,7 +2,7 @@
   "profiles": {
     "locgen": {
       "commandName": "Project",
-      "commandLineArgs": "/SourceFilePath:./../Samples/text.xlf /CodeGenType:Cpp"
+      "commandLineArgs": "/SourceFilePath:./../../../.././Samples/text.xlf"
     }
   }
 }

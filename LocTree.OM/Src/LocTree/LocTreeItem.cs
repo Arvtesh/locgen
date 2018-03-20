@@ -6,16 +6,16 @@ using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocTreeItem"/>.
+	/// 
 	/// </summary>
-	internal abstract class LocTreeItem : ILocTreeItem
+	public abstract class LocTreeItem
 	{
 		#region data
 
-		private readonly ILocTreeItem _parent;
+		private readonly LocTreeItem _parent;
 		private readonly string _id;
 		private readonly string _originalName;
 		private readonly string _name;
@@ -25,7 +25,13 @@ namespace locgen.Impl
 
 		#region interface
 
-		protected LocTreeItem(ILocTreeItem parent, string id, string name)
+		public string Id => _id;
+		public string OriginalName => _originalName;
+		public string Name => _name;
+		public string Path => _path;
+		public string Notes { get; set; }
+
+		protected LocTreeItem(LocTreeItem parent, string id, string name)
 		{
 			_parent = parent;
 			_id = id;
@@ -33,16 +39,6 @@ namespace locgen.Impl
 			_name = GetName(_originalName);
 			_path = parent != null ? parent.Path + '/' + _name : _name;
 		}
-
-		#endregion
-
-		#region ILocTreeItem
-
-		public string Id => _id;
-		public string OriginalName => _originalName;
-		public string Name => _name;
-		public string Path => _path;
-		public string Notes { get; set; }
 
 		#endregion
 

@@ -1,0 +1,43 @@
+﻿{
+    "files":[
+        {
+            "name": "test",
+            "notes": "some notes on the file",
+
+            "groups": [
+                {
+                    "id": "g1",
+                    "name": "group1",
+                    "notes": "some notes on the group",
+                    "groups": [
+                        {
+                            "id": "g1",
+                            "name": "group1",
+                            "notes": "some notes on the group"
+                        }
+                    ],
+                    "units": [
+                        {
+                            "id": "u2",
+                            "name": "unit2",
+                            "type": "texture",
+                            "notes": "some notes on the unit",
+                            "srcPath": "tex.png",
+                            "targetPath": "tex2.png"
+                        }
+                    ]
+                }
+            ],
+            "units": [
+                {
+                    "id": "u1",
+                    "name": "unit1",
+                    "type": "text",
+                    "notes": "some notes on the unit",
+                    "srcValue": "some text",
+                    "targetValue": "some translated text"
+                }
+            ]
+        }
+    ]
+}

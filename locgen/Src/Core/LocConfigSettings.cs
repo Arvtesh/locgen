@@ -31,15 +31,22 @@ namespace locgen
 
 		public LocConfigSettings()
 		{
-			_args.Add("/SourceFileType", new ArgData(OnSourceFileType, "Type of the localization source. Supported values are Auto, Xliff12, Xliff20. Default is Auto."));
 			_args.Add("/SourceFilePath", new ArgData(OnSourceFilePath, "Path to the localization source file."));
+			_args.Add("/SourceFileType", new ArgData(OnSourceFileType, "Type of the localization source. Supported values are Auto, Xliff12, Xliff20. Default is Auto."));
 			_args.Add("/CodeGenType", new ArgData(OnCodeGenType, "Type of the code generator to use. Supported values are Csharp, Cpp. Default is Csharp."));
 			_args.Add("/CodeGenTargetDir", new ArgData(OnCodeGenTargetDir, "Directory to store generated code files. Default is current directory."));
-			_args.Add("/CodeGenNamespace", new ArgData(OnCodeGenNamespace, "Namespace to place the generated code to."));
+			_args.Add("/CodeGenNamespace", new ArgData(OnCodeGenNamespace, "Namespace to place the generated code to. Default is global namespace."));
+			_args.Add("/CodeGenResourceManager", new ArgData(OnCodeGenResourceManager, "Name of a resource manager class to use. Default is ResourceManager."));
+			_args.Add("/CodeGenStaticAccess", new ArgData(OnCodeGenStaticAccess, "Specified whether the generated classes should be static. Supported values are True, False. Default is False."));
+			_args.Add("/ResGenType", new ArgData(OnResGenType, "Type of the resource generator to to use. Supported values are ResX, Json. Default is ResX."));
+			_args.Add("/ResGenTargetDir", new ArgData(OnResGenTargetDir, "Directory to store generated resource files. Default is current directory."));
 		}
 
 		public void Parse(LocConfig config, string[] args)
 		{
+			config.CodeGenType = CodeGenType.CsharpUnity3d;
+			config.ResGenType = ResGenType.ResX;
+
 			foreach (var arg in args)
 			{
 				var key = arg;
@@ -61,6 +68,10 @@ namespace locgen
 
 		public void WriteHelp()
 		{
+			Console.WriteLine("Usage:");
+			Console.WriteLine("dotnet locgen /SourceFilePath:<source_file_path> [...]");
+			Console.WriteLine();
+
 			foreach (var item in _args)
 			{
 				Console.WriteLine("\t{0,-20}{1}", item.Key, item.Value.Description);
@@ -100,6 +111,29 @@ namespace locgen
 		private void OnCodeGenNamespace(LocConfig config, string value)
 		{
 			config.CodeGenSettings.TargetNamespace = value;
+		}
+
+		private void OnCodeGenResourceManager(LocConfig config, string value)
+		{
+			config.CodeGenSettings.ResourceManagerClass = value;
+		}
+
+		private void OnCodeGenStaticAccess(LocConfig config, string value)
+		{
+			config.CodeGenSettings.StaticAccess = (value == "True");
+		}
+
+		private void OnResGenType(LocConfig config, string value)
+		{
+			if (Enum.TryParse<ResGenType>(value, out var result))
+			{
+				config.ResGenType = result;
+			}
+		}
+
+		private void OnResGenTargetDir(LocConfig config, string value)
+		{
+			config.ResGenSettings.TargetDir = value;
 		}
 
 		#endregion

@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
 	/// A JSON tree builder.
@@ -25,7 +25,7 @@ namespace locgen.Impl
 
 		#region LocTreeBuilder
 
-		protected override void ReadInternal(ILocTreeSet treeSet, Stream stream)
+		protected override void ReadInternal(LocTreeSet treeSet, Stream stream)
 		{
 			using (var textStream = new StreamReader(stream))
 			{
@@ -47,7 +47,7 @@ namespace locgen.Impl
 
 		#region implementation
 
-		private void ReadTree(ILocTree tree, JsonDataGroup jsonDataGroup)
+		private void ReadTree(LocTree tree, JsonDataGroup jsonDataGroup)
 		{
 			tree.Notes = jsonDataGroup.Notes;
 
@@ -62,7 +62,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadGroup(ILocTreeGroup group, JsonDataGroup groupData)
+		private void ReadGroup(LocTreeGroup group, JsonDataGroup groupData)
 		{
 			var childGroup = group.AddGroup(groupData.Id, groupData.Name);
 
@@ -79,7 +79,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void ReadUnit(ILocTreeGroup group, JsonDataUnit u)
+		private void ReadUnit(LocTreeGroup group, JsonDataUnit u)
 		{
 			switch (u.Type)
 			{

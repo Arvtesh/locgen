@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace locgen.Impl
+namespace locgen
 {
 	internal class JsonDataItem
 	{

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Resources;
 
 namespace locgen.Impl
 {
@@ -15,7 +16,7 @@ namespace locgen.Impl
 
 		#region interface
 
-		public ResxResGenerator(ILocResGeneratorSettings settings)
+		public ResxResGenerator(LocResGeneratorSettings settings)
 			: base(ResGenType.ResX.ToString(), settings)
 		{
 		}
@@ -24,21 +25,18 @@ namespace locgen.Impl
 
 		#region LocCodeGenerator
 
-		protected override void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken)
+		protected override void GenerateInternal(LocTree data, string path, CancellationToken cancellationToken)
 		{
-			WriteIdent(file, 0, "<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-			WriteIdent(file, 0, "<root>");
-			WriteIdent(file, 1, "<resheader name=\"resmimetype\"><value>text/microsoft-resx</value></resheader>");
-			WriteIdent(file, 1, "<resheader name=\"version\"><value>2.0</value></resheader>");
-
-			foreach (var unit in data.UnitsRecursive.OfType<ILocTreeText>())
+			using (var resGen = new ResourceWriter(path))
 			{
-				WriteIdent(file, 1, $"<data name=\"{unit.Id}\" xml:space=\"preserve\">");
-				WriteIdent(file, 2, $"<value>{unit.TargetValue}</value>");
-				WriteIdent(file, 1, "</data>");
-			}
+				foreach (var unit in data.UnitsRecursive.OfType<LocTreeText>())
+				{
+					var value = string.IsNullOrEmpty(unit.TargetValue) ? unit.SrcValue : unit.TargetValue;
+					resGen.AddResource(unit.Id, value);
+				}
 
-			WriteIdent(file, 0, "</root>");
+				resGen.Generate();
+			}
 		}
 
 		protected override string GetTargetFileExtension()

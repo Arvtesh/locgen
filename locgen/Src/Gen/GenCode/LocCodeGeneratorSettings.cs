@@ -3,12 +3,38 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace locgen.Impl
+namespace locgen
 {
 	/// <summary>
-	/// Implementation of <see cref="ILocCodeGeneratorSettings"/>.
+	/// 
 	/// </summary>
-	internal sealed class LocCodeGeneratorSettings : LocGeneratorSettings, ILocCodeGeneratorSettings
+	public enum CodeGenType
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		None,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Csharp,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		CsharpUnity3d,
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Cpp,
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	internal sealed class LocCodeGeneratorSettings : LocGeneratorSettings
 	{
 		#region data
 
@@ -22,7 +48,7 @@ namespace locgen.Impl
 
 		#endregion
 
-		#region ILocCodeGeneratorSettings
+		#region interface
 
 		public string TargetNamespace { get; set; }
 
@@ -30,7 +56,7 @@ namespace locgen.Impl
 
 		public bool StaticAccess { get; set; }
 
-		public string ResourceManagerClassRef
+		public string ResourceManagerClass
 		{
 			get
 			{

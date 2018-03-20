@@ -16,8 +16,8 @@ namespace locgen.Impl
 
 		#region interface
 
-		public CppCodeGenerator(CodeGenType type, ILocCodeGeneratorSettings settings)
-			: base(type, settings)
+		public CppCodeGenerator(LocCodeGeneratorSettings settings)
+			: base(CodeGenType.Cpp, settings)
 		{
 		}
 
@@ -25,10 +25,13 @@ namespace locgen.Impl
 
 		#region LocCodeGenerator
 
-		protected override void GenerateInternal(ILocTree data, StreamWriter file, CancellationToken cancellationToken)
+		protected override void GenerateInternal(LocTree data, string path, CancellationToken cancellationToken)
 		{
-			WriteFileHeader(file, cancellationToken);
-			WriteData(file, data, cancellationToken);
+			using (var file = File.CreateText(path))
+			{
+				WriteFileHeader(file, cancellationToken);
+				WriteData(file, data, cancellationToken);
+			}
 		}
 
 		protected override string GetTargetFileExtension()
@@ -52,7 +55,7 @@ namespace locgen.Impl
 			file.WriteLine("// </auto-generated>");
 		}
 
-		private void WriteData(StreamWriter file, ILocTree data, CancellationToken cancellationToken)
+		private void WriteData(StreamWriter file, LocTree data, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -72,7 +75,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocTree(StreamWriter file, ILocTree tree, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocTree(StreamWriter file, LocTree tree, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -90,7 +93,7 @@ namespace locgen.Impl
 				WriteIdent(file, identLevel, "{");
 				WriteIdent(file, identLevel, "private:");
 
-				WriteIdent(file, identLevel + 1, $"const {Settings.ResourceManagerClassRef} & _resourceManager;");
+				WriteIdent(file, identLevel + 1, $"const {Settings.ResourceManagerClass} & _resourceManager;");
 				file.WriteLine();
 
 				WriteIdent(file, identLevel, "public:");
@@ -113,7 +116,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocGroupContent(StreamWriter file, ILocTreeGroup group, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocGroupContent(StreamWriter file, LocTreeGroup group, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -130,7 +133,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocGroupContentKeys(StreamWriter file, ILocTreeGroup group, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocGroupContentKeys(StreamWriter file, LocTreeGroup group, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -147,7 +150,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocGroup(StreamWriter file, ILocTreeGroup group, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocGroup(StreamWriter file, LocTreeGroup group, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -170,7 +173,7 @@ namespace locgen.Impl
 				WriteIdent(file, identLevel, "{");
 				WriteIdent(file, identLevel, "private:");
 
-				WriteIdent(file, identLevel + 1, $"const {Settings.ResourceManagerClassRef} & _resourceManager;");
+				WriteIdent(file, identLevel + 1, $"const {Settings.ResourceManagerClass} & _resourceManager;");
 				file.WriteLine();
 
 				WriteIdent(file, identLevel, "public:");
@@ -186,7 +189,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocGroupKeys(StreamWriter file, ILocTreeGroup group, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocGroupKeys(StreamWriter file, LocTreeGroup group, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -199,7 +202,7 @@ namespace locgen.Impl
 			WriteIdent(file, identLevel, "};");
 		}
 
-		private void WriteLocUnit(StreamWriter file, ILocTreeUnit unit, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocUnit(StreamWriter file, LocTreeUnit unit, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -207,7 +210,7 @@ namespace locgen.Impl
 
 			if (Settings.StaticAccess)
 			{
-				WriteIdent(file, identLevel, $"static const wchar_t * Get{unit.Name}Text() {{ return {Settings.ResourceManagerClassRef}::{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }}");
+				WriteIdent(file, identLevel, $"static const wchar_t * Get{unit.Name}Text() {{ return {Settings.ResourceManagerClass}::{Settings.ResourceManagerGetStringMethod}(\"{unit.Id}\"); }}");
 			}
 			else
 			{
@@ -215,7 +218,7 @@ namespace locgen.Impl
 			}
 		}
 
-		private void WriteLocUnitKeys(StreamWriter file, ILocTreeUnit unit, CancellationToken cancellationToken, int identLevel)
+		private void WriteLocUnitKeys(StreamWriter file, LocTreeUnit unit, CancellationToken cancellationToken, int identLevel)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
@@ -223,12 +226,12 @@ namespace locgen.Impl
 			WriteIdent(file, identLevel, $"const const char * {unit.Name} = \"{unit.Id}\";");
 		}
 
-		private void WriteLocNotes(StreamWriter file, ILocTreeItem item, int identLevel)
+		private void WriteLocNotes(StreamWriter file, LocTreeItem item, int identLevel)
 		{
-			var unit = item as ILocTreeUnit;
+			var unit = item as LocTreeUnit;
 			var hasNotes = !string.IsNullOrEmpty(item.Notes);
 
-			if (item is ILocTreeText textUnit)
+			if (item is LocTreeText textUnit)
 			{
 				if (!string.IsNullOrEmpty(textUnit.SrcValue))
 				{
@@ -279,12 +282,12 @@ namespace locgen.Impl
 			}
 		}
 
-		private string GetGroupConstructor(ILocTreeGroup group)
+		private string GetGroupConstructor(LocTreeGroup group)
 		{
 			var text = new StringBuilder(256);
-			var name = group is ILocTree ? group.Name : GetGroupClassName(group.Name);
+			var name = group is LocTree ? group.Name : GetGroupClassName(group.Name);
 
-			text.AppendFormat("{0}(const {1} & resourceManager) : _resourceManager(resourceManager)", name, Settings.ResourceManagerClassRef);
+			text.AppendFormat("{0}(const {1} & resourceManager) : _resourceManager(resourceManager)", name, Settings.ResourceManagerClass);
 
 			foreach (var g in group.Groups)
 			{
