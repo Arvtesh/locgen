@@ -38,14 +38,14 @@ namespace locgen
 			_args.Add("/CodeGenNamespace", new ArgData(OnCodeGenNamespace, "Namespace to place the generated code to. Default is global namespace."));
 			_args.Add("/CodeGenResourceManager", new ArgData(OnCodeGenResourceManager, "Name of a resource manager class to use. Default is ResourceManager."));
 			_args.Add("/CodeGenStaticAccess", new ArgData(OnCodeGenStaticAccess, "Specified whether the generated classes should be static. Supported values are True, False. Default is False."));
-			_args.Add("/ResGenType", new ArgData(OnResGenType, "Type of the resource generator to to use. Supported values are ResX, Json. Default is ResX."));
+			_args.Add("/ResGenType", new ArgData(OnResGenType, "Type of the resource generator to to use. Supported values are Resources, ResX, Json. Default is Resources."));
 			_args.Add("/ResGenTargetDir", new ArgData(OnResGenTargetDir, "Directory to store generated resource files. Default is current directory."));
 		}
 
 		public void Parse(LocConfig config, string[] args)
 		{
 			config.CodeGenType = CodeGenType.CsharpUnity3d;
-			config.ResGenType = ResGenType.ResX;
+			config.ResGenType = ResGenType.Resources;
 
 			foreach (var arg in args)
 			{

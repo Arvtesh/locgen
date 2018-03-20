@@ -18,6 +18,11 @@ namespace locgen
 		/// <summary>
 		/// 
 		/// </summary>
+		Resources,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		ResX,
 
 		/// <summary>

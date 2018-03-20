@@ -9,15 +9,15 @@ namespace locgen.Impl
 	/// <summary>
 	/// A ResX resource file generator.
 	/// </summary>
-	internal sealed class ResxResGenerator : LocResGenerator
+	internal sealed class ResourcesResGenerator : LocResGenerator
 	{
 		#region data
 		#endregion
 
 		#region interface
 
-		public ResxResGenerator(LocResGeneratorSettings settings)
-			: base(ResGenType.ResX.ToString(), settings)
+		public ResourcesResGenerator(LocResGeneratorSettings settings)
+			: base(ResGenType.Resources.ToString(), settings)
 		{
 		}
 
@@ -41,7 +41,7 @@ namespace locgen.Impl
 
 		protected override string GetTargetFileExtension()
 		{
-			return ".resx";
+			return ".resources";
 		}
 
 		#endregion

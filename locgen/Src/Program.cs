@@ -109,8 +109,8 @@ namespace locgen
 		{
 			switch (resGenType)
 			{
-				case ResGenType.ResX:
-					return new Impl.ResxResGenerator(settings);
+				case ResGenType.Resources:
+					return new Impl.ResourcesResGenerator(settings);
 
 				default:
 					return new Impl.JsonResGenerator(settings);
